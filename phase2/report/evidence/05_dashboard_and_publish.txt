@@ -1,0 +1,19 @@
+$ kubectl -n cc-project logs job/generate-report
+Dashboard written to /project-data/outputs/final/index.html
+
+$ curl -o /dev/null -w '%{http_code}' http://localhost:9000/index.html
+200
+
+$ curl -o /dev/null -w '%{http_code}' http://localhost:9000/summary.json
+200
+
+GitLab publish job:
+deployment "report-web" successfully rolled out
+pod/report-publish-check condition met
+summary.total_requests=100000
+status=success
+duration=9 seconds
+
+Published endpoints:
+http://localhost:9000/index.html
+http://localhost:9000/summary.json

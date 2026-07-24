@@ -1,0 +1,28 @@
+GitLab project: root/cloud-phase2
+Pipeline ID: 16
+Ref: main
+Commit: f507f6c39b3de730fc187ab45cfdf2679e6b4d8a
+Status: success
+Created: 2026-07-25T01:11:16.244+03:30
+Started: 2026-07-25T01:11:31.731+03:30
+Finished: 2026-07-25T01:18:05.474+03:30
+Pipeline duration: 372 seconds
+Queued duration: 15 seconds
+
+ID    STAGE       JOB                         STATUS    DURATION
+177   test        test-code                   success   6 s
+178   build       build-match-service         success   17 s
+179   build       build-team-service          success   8 s
+180   build       build-stadium-service       success   7 s
+181   build       build-traffic-generator     success   6 s
+182   build       build-phase2-tools          success   7 s
+183   build       build-hadoop-streaming      success   28 s
+184   deploy      deploy-kubernetes            success   11 s
+185   traffic     generate-traffic             success   117 s
+186   mapreduce   run-mapreduce                success   138 s
+187   validate    validate-output              success   9 s
+188   report      generate-report              success   9 s
+189   publish     publish-report               success   9 s
+
+The data was read from the GitLab API after the final run. Secret headers and
+token values were not written to this evidence file.

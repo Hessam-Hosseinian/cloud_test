@@ -1,0 +1,25 @@
+Repository security checks:
+- .phase2-secrets is excluded from Git.
+- The GitLab root password is not committed.
+- The GitLab API token is not committed.
+- The GitLab Runner authentication token is not committed.
+- No private key or environment file is committed.
+- Kubernetes Secret manifests contain placeholders only.
+
+Reproduction entry points:
+- scripts/phase2/create_cluster.sh
+- scripts/phase2/load_core_images.sh
+- scripts/phase2/deploy_gitlab.sh
+- scripts/phase2/configure_gitlab.sh
+- scripts/phase2/wait_for_pipeline.sh
+- scripts/phase2/collect_status.sh
+- scripts/phase2/run_spark_kubernetes.sh
+
+Public host endpoints after deployment:
+- GitLab: http://localhost:8929
+- Nginx gateway: http://localhost:8080
+- Report dashboard: http://localhost:9000/index.html
+
+The host addresses are intentionally local. A grader can inspect the committed
+evidence without access to the original laptop and can reproduce the complete
+environment by following the Phase 2 README.

@@ -1,0 +1,35 @@
+$ kubectl -n cc-project get deployment,statefulset
+KIND          NAME               READY   DESIRED   AVAILABLE
+Deployment    gitlab             1       1         1
+Deployment    gitlab-runner      1       1         1
+Deployment    match-service      1       1         1
+Deployment    nginx-gateway      1       1         1
+Deployment    registry           1       1         1
+Deployment    report-web         1       1         1
+Deployment    stadium-service    1       1         1
+Deployment    team-service       1       1         1
+StatefulSet   datanode           0       0         0
+StatefulSet   namenode           0       0         0
+
+$ kubectl -n cc-project get svc
+NAME               TYPE        CLUSTER-IP      PORTS
+datanode           ClusterIP   None            9866,9864
+gitlab             NodePort    10.96.111.72    80
+match-service      ClusterIP   10.96.152.113   8000
+namenode           ClusterIP   10.96.91.155    8020,9870
+nginx-gateway      NodePort    10.96.218.165   80
+registry           ClusterIP   10.96.0.50      5000
+report-web         NodePort    10.96.201.119   80
+stadium-service    ClusterIP   10.96.224.131   8000
+team-service       ClusterIP   10.96.228.190   8000
+
+$ kubectl -n cc-project get pvc
+NAME                     STATUS   CAPACITY   MODE
+data-data-datanode-0     Bound    2Gi        ReadWriteOnce
+gitlab-config            Bound    1Gi        ReadWriteOnce
+gitlab-data              Bound    8Gi        ReadWriteOnce
+name-data-namenode-0     Bound    1Gi        ReadWriteOnce
+project-data             Bound    2Gi        ReadWriteOnce
+registry-data            Bound    3Gi        ReadWriteOnce
+
+HDFS is intentionally scaled to zero after MapReduce to release CPU and RAM.

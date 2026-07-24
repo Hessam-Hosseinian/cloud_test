@@ -78,9 +78,17 @@ The verified result contains:
 - [Phase 1 report](phase1/report/report.pdf)
 - [Phase 2 report](phase2/report/report.pdf)
 - [Final Phase 2 architecture](phase2/report/architecture.png)
+- [Sanitized Phase 2 execution evidence](phase2/report/evidence/README.md)
+- [Published dashboard snapshot](phase2/code/outputs/final/index.html)
 
 Both reports include the implementation procedure, commands, test results,
 resource controls, encountered errors, and their fixes.
+
+The Phase 2 evidence directory contains the final Kubernetes workload state,
+all thirteen GitLab Pipeline 16 jobs, exact traffic and output counts,
+MapReduce validation, HTTP publication checks, and the successful Kubernetes
+Spark execution. These files are plain text so they can be reviewed directly
+on GitHub without access to the original local GitLab instance.
 
 ## Running Phase 1
 

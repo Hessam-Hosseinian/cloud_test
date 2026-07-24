@@ -1,0 +1,33 @@
+$ kubectl -n cc-project get job spark-streaming spark-export-batches
+NAME                   STATUS     SUCCEEDED
+spark-streaming        Complete   1
+spark-export-batches   Complete   1
+
+Spark image: apache/spark:3.5.5
+Master: local[2]
+Driver memory: 768 MiB
+Container memory limit: 1600 MiB
+Job duration: 68 seconds
+Container restarts: 0
+
+Exported input:
+5 Nginx JSONL batches x 200 records = 1000 records
+5 service JSONL batches x 200 records = 1000 records
+
+First live ten-second gateway window:
+team-service     /api/teams       requests=494   errors=12   avg_ms=22.652
+match-service    /api/matches     requests=280   errors=6    avg_ms=28.243
+stadium-service  /api/stadiums    requests=226   errors=3    avg_ms=26.597
+
+Popular team observations in the updated live window:
+Argentina=Argentina(113)
+Brazil=Brazil(71)
+Canada=Canada(75)
+Germany=Germany(65)
+Iran=Iran(73)
+Japan=Japan(81)
+Mexico=Mexico(72)
+USA=USA(78)
+
+After the Spark Job completed, the cleanup trap restored GitLab, GitLab Runner,
+Nginx, and all three backend Deployments. Every rollout completed successfully.

@@ -784,6 +784,13 @@ OOMKilled شد، چون دو CSV بزرگ را کامل در list می‌ریخ�
   PVCهای GitLab، Registry و داده پروژه بررسی شدند و سالم بودند. Job نیمه‌کاره
   مبنای نتیجه قرار نگرفت؛ pipeline تازه از آخرین commit اجرا شد و اجرای شماره
   ۱۶ از test تا publish کامل و موفق پایان یافت.
+
+  \item \textbf{تفکیک شواهد دو فاز:} در بازبینی نهایی پیش از انتشار GitHub
+  مشخص شد پوشه evidence فاز دوم هنوز تصویرها و متن‌های اجرای Docker Compose
+  فاز اول را نگه داشته است. آن فایل‌ها برای اثبات Kubernetes مناسب نبودند و
+  از فاز دوم کنار گذاشته شدند؛ نسخه اصلی آن‌ها در گزارش فاز اول محفوظ ماند.
+  پوشه evidence فاز دوم با وضعیت واقعی namespace، اطلاعات Pipeline 16،
+  شمارش لاگ‌ها، خروجی MapReduce، publish و Spark روی Kubernetes از نو ساخته شد.
 \end{enumerate}
 
 \section{بخش امتیازی Spark روی Kubernetes}
@@ -837,6 +844,59 @@ Spark Structured Streaming & موفق & ده batch، پنجره زنده، زم�
 \bottomrule
 \end{tabularx}
 \end{table}
+
+\section{شواهد نهایی قابل بررسی بدون دسترسی به لپ‌تاپ}
+
+GitLab این پروژه داخل کلاستر محلی اجرا شده است و پس از تحویل، مصحح نمی‌تواند
+آدرس \codefile{localhost:8929} لپ‌تاپ را باز کند. به همین دلیل فقط به تصویر
+صفحه GitLab اکتفا نشد. وضعیت نهایی با API خود GitLab و فرمان‌های Kubernetes
+خوانده، از Secretها پاک و در پوشه \codefile{report/evidence} ذخیره شد. تمام
+فایل‌ها متنی هستند تا در GitHub مستقیماً دیده و مقایسه شوند.
+
+\begin{table}[H]
+\centering
+\caption{فهرست شواهد واقعی فاز دوم}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{4.7cm}X}
+\toprule
+فایل & محتوای قابل بررسی \\
+\midrule
+\codefile{01\_kubernetes\_status.txt} & Deploymentها، StatefulSetها، Serviceها و PVCهای namespace \\
+\codefile{02\_gitlab\_pipeline\_16.txt} & commit، زمان کل و وضعیت و مدت هر ۱۳ Job \\
+\codefile{03\_traffic\_and\_outputs.txt} & شمارش لاگ، شناسه یکتا و summary نهایی \\
+\codefile{04\_mapreduce\_and\_validation.txt} & هفت گام اجرا، پنج Job تحلیلی و اعتبارسنجی ۱۳ فایل \\
+\codefile{05\_dashboard\_and\_publish.txt} & rollout وب، پاسخ‌های HTTP 200 و نتیجه publish \\
+\codefile{06\_spark\_kubernetes.txt} & وضعیت Job، پنجره زنده، limit حافظه و بازیابی سرویس‌ها \\
+\codefile{07\_security\_and\_reproduction.txt} & کنترل Secret و مسیر بازتولید کامل سامانه \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{latin}
+\begin{lstlisting}
+Pipeline 16 | commit f507f6c3 | status success | duration 372 s
+traffic-generator:
+  Completed: 100,000 in 98.30s (1017.3 req/s)
+data checks:
+  nginx lines=100000, unique request IDs=100000
+  backend lines=28162+49619+22219=100000
+mapreduce:
+  five analysis jobs completed
+  Validated 13 required output files.
+publish:
+  dashboard HTTP=200, summary HTTP=200
+spark:
+  status=Complete, duration=68s, restarts=0
+\end{lstlisting}
+\end{latin}
+
+\begin{resultbox}{قابلیت ممیزی مخزن GitHub}
+کد، manifestها، اسکریپت نصب، داده واقعی، خروجی‌های تحلیل، گزارش PDF و شواهد
+اجرای نهایی در یک commit قرار گرفته‌اند. بزرگ‌ترین فایل ۲۸٫۶MiB است، بنابراین
+هیچ فایل از محدودیت انتشار معمول GitHub عبور نمی‌کند. مصحح می‌تواند بدون
+دسترسی به Secretها نتیجه را بررسی کند و در صورت نیاز کل محیط را از روی README
+بازتولید کند.
+\end{resultbox}
 
 \section{روش اجرای پروژه}
 
@@ -916,6 +976,7 @@ report/
   report.tex
   report.pdf
   architecture.png
+  evidence/       # sanitized Kubernetes, GitLab CI, Hadoop and Spark proof
 \end{lstlisting}
 \end{latin}
 

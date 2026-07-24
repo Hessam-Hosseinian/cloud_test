@@ -1,0 +1,25 @@
+$ kubectl -n cc-project logs job/mapreduce-pipeline
+[1/7] Uploading immutable input snapshots to HDFS
+[2/7] Job 1 - parsing and cleaning
+[3/7] Job 2 - general Nginx aggregation
+[4/7] Job 3 - country/entity request counts
+[5/7] Job 4 - most popular entity by country
+[6/7] Job 5 - final summary
+[7/7] Validating required outputs
+Validated 13 required output files.
+MapReduce pipeline completed successfully.
+
+$ kubectl -n cc-project get jobs
+NAME                     STATUS     SUCCEEDED
+mapreduce-pipeline       Complete   1
+validate-output          Complete   1
+generate-report          Complete   1
+traffic-generator        Complete   1
+
+GitLab job run-mapreduce:
+status=success
+duration=138 seconds
+
+GitLab job validate-output:
+status=success
+duration=9 seconds

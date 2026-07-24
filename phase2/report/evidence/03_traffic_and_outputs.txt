@@ -1,0 +1,25 @@
+$ kubectl -n cc-project logs job/traffic-generator
+Starting 100,000 requests with 32 workers via http://nginx-gateway:80
+Completed: 100,000 in 98.30s (1017.3 req/s)
+
+$ wc -l data/nginx/nginx_access.log data/service_logs/*.log
+100000  data/nginx/nginx_access.log
+28162   data/service_logs/match_service.log
+49619   data/service_logs/team_service.log
+22219   data/service_logs/stadium_service.log
+200000  total
+
+unique_nginx_request_ids=100000
+required_output_files=13
+
+Final summary:
+total_requests=100000
+most_requested_service=team-service
+highest_error_rate_service=match-service
+slowest_endpoint=/api/stadiums
+most_popular_team_overall=Argentina
+most_requested_match_day_overall=2026-06-25
+most_requested_stadium_overall=New York New Jersey Stadium
+predicted_champion=Argentina
+predicted_final=France vs Argentina
+predicted_final_stadium=New York New Jersey Stadium
