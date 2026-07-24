@@ -1,0 +1,33 @@
+country,team,total_requests
+Argentina,Argentina,4146
+Argentina,Brazil,1499
+Argentina,Spain,547
+Argentina,Unknown Team,77
+Brazil,Argentina,1752
+Brazil,Brazil,3742
+Brazil,Portugal,561
+Brazil,Unknown Team,89
+Canada,Argentina,1742
+Canada,Canada,3736
+Canada,France,615
+Canada,Unknown Team,80
+Germany,Argentina,1800
+Germany,France,542
+Germany,Germany,3718
+Germany,Unknown Team,74
+Iran,Argentina,1697
+Iran,Germany,605
+Iran,Iran,3740
+Iran,Unknown Team,87
+Japan,Argentina,1800
+Japan,Japan,3682
+Japan,South Korea,620
+Japan,Unknown Team,104
+Mexico,Argentina,1756
+Mexico,Mexico,3735
+Mexico,USA,559
+Mexico,Unknown Team,86
+USA,Argentina,1779
+USA,Mexico,597
+USA,USA,3679
+USA,Unknown Team,87

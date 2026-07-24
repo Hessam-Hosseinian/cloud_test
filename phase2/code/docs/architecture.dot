@@ -1,0 +1,67 @@
+digraph Phase2Architecture {
+  graph [
+    rankdir=LR,
+    bgcolor="white",
+    pad=0.25,
+    nodesep=0.42,
+    ranksep=0.75,
+    fontname="DejaVu Sans",
+    label="CC Project Phase 2 - Final Kubernetes Architecture",
+    labelloc=t,
+    fontsize=20
+  ];
+  node [
+    shape=box,
+    style="rounded,filled",
+    fillcolor="#F8FAFC",
+    color="#0F766E",
+    fontname="DejaVu Sans",
+    fontsize=10,
+    margin="0.14,0.09"
+  ];
+  edge [color="#475569", fontname="DejaVu Sans", fontsize=9];
+
+  developer [label="Developers\nGit push", fillcolor="#E0F2FE", color="#0284C7"];
+  gitlab [label="GitLab CE\nNodePort 30880", fillcolor="#FFF7ED", color="#F97316"];
+  runner [label="GitLab Runner\nKubernetes executor\nconcurrent = 1", fillcolor="#F5F3FF", color="#7C3AED"];
+  kaniko [label="Kaniko build Pod\n(no Docker daemon)", fillcolor="#F5F3FF", color="#7C3AED"];
+  registry [label="Private Registry\nClusterIP 10.96.0.50:5000\nPVC 3 GiB", fillcolor="#F5F3FF", color="#7C3AED"];
+
+  traffic [label="Traffic Generator Job\n100,000 requests", fillcolor="#ECFDF5", color="#10B981"];
+  nginx [label="Nginx Gateway\nNodePort 30080", fillcolor="#ECFDF5", color="#10B981"];
+  match [label="Match Service\nDeployment"];
+  team [label="Team Service\nDeployment"];
+  stadium [label="Stadium Service\nDeployment"];
+  pvc [label="Shared project-data PVC\nlogs + outputs\n2 GiB", shape=cylinder, fillcolor="#FEFCE8", color="#CA8A04"];
+
+  hdfs [label="HDFS\nNameNode + DataNode\nscaled 0 -> 1 -> 0", fillcolor="#EFF6FF", color="#2563EB"];
+  mr [label="Hadoop Streaming Job\n5 MapReduce stages", fillcolor="#EFF6FF", color="#2563EB"];
+  validate [label="Validation Job\n13 required outputs", fillcolor="#EFF6FF", color="#2563EB"];
+  dashboard [label="Report Web\nNodePort 30090\nHTML + JSON", fillcolor="#FDF2F8", color="#DB2777"];
+  spark [label="Optional Spark Job\nlocal[2] on Kubernetes", style="rounded,filled,dashed", fillcolor="#FAFAFA", color="#64748B"];
+
+  developer -> gitlab [label="source"];
+  gitlab -> runner [label="8-stage pipeline"];
+  runner -> kaniko [label="build"];
+  kaniko -> registry [label="push images"];
+  registry -> match [label="pull"];
+  registry -> team [label="pull"];
+  registry -> stadium [label="pull"];
+  registry -> traffic [label="pull"];
+  traffic -> nginx [label="HTTP only"];
+  nginx -> match;
+  nginx -> team;
+  nginx -> stadium;
+  nginx -> pvc [label="JSON access log"];
+  match -> pvc [label="JSON log"];
+  team -> pvc [label="JSON log"];
+  stadium -> pvc [label="JSON log"];
+  pvc -> hdfs [label="upload logs"];
+  hdfs -> mr [label="streaming input"];
+  mr -> pvc [label="CSV + summary.json"];
+  pvc -> validate;
+  validate -> dashboard [label="publish"];
+  pvc -> dashboard;
+  pvc -> spark [label="micro-batches"];
+  spark -> pvc [label="streaming output"];
+}

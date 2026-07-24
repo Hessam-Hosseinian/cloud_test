@@ -1,0 +1,6 @@
+name,total_requests,successful_requests,client_errors,server_errors,error_rate_percent,avg_response_time_ms
+invalid,1984,0,1984,0,100.0000,25.377
+normal,91466,91466,0,0,0.0000,25.243
+popular,5072,5072,0,0,0.0000,25.331
+server_error,1001,0,0,1001,100.0000,24.932
+slow,477,477,0,0,0.0000,796.969

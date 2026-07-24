@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mapreduce-pipeline
+  namespace: cc-project
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: mapreduce-pipeline
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: hadoop
+          image: registry.cc-project.svc:5000/cc-phase2/hadoop-streaming:__IMAGE_TAG__
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "/project/scripts/run-on-kubernetes.sh"]
+          env:
+            - {name: SERVICE_PRECONDITION, value: "namenode:8020"}
+            - {name: CORE_CONF_fs_defaultFS, value: "hdfs://namenode:8020"}
+            - {name: HDFS_CONF_dfs_permissions_enabled, value: "false"}
+            - {name: HDFS_CONF_dfs_replication, value: "1"}
+            - {name: HADOOP_HEAPSIZE_MAX, value: "512"}
+            - {name: HADOOP_CLIENT_OPTS, value: "-Xmx384m"}
+            - {name: EXPECTED_REQUESTS, value: "100000"}
+            - {name: SHARED_ROOT, value: /project-data}
+          resources:
+            requests:
+              cpu: 250m
+              memory: 384Mi
+            limits:
+              cpu: "1"
+              memory: 1200Mi
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data

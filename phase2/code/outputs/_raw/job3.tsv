@@ -1,0 +1,264 @@
+matchday	Argentina,2026-05-01,22
+matchday	Argentina,2026-06-12,141
+matchday	Argentina,2026-06-13,173
+matchday	Argentina,2026-06-14,132
+matchday	Argentina,2026-06-15,129
+matchday	Argentina,2026-06-18,137
+matchday	Argentina,2026-06-19,142
+matchday	Argentina,2026-06-22,177
+matchday	Argentina,2026-06-25,1014
+matchday	Argentina,2026-07-04,238
+matchday	Argentina,2026-07-10,280
+matchday	Argentina,2026-07-19,827
+matchday	Argentina,2026/06/25,16
+matchday	Argentina,not-a-date,22
+matchday	Brazil,2026-05-01,21
+matchday	Brazil,2026-06-12,145
+matchday	Brazil,2026-06-13,163
+matchday	Brazil,2026-06-14,126
+matchday	Brazil,2026-06-15,140
+matchday	Brazil,2026-06-18,122
+matchday	Brazil,2026-06-19,149
+matchday	Brazil,2026-06-22,180
+matchday	Brazil,2026-06-25,1034
+matchday	Brazil,2026-07-04,225
+matchday	Brazil,2026-07-10,286
+matchday	Brazil,2026-07-19,891
+matchday	Brazil,2026/06/25,22
+matchday	Brazil,not-a-date,29
+matchday	Canada,2026-05-01,20
+matchday	Canada,2026-06-12,131
+matchday	Canada,2026-06-13,165
+matchday	Canada,2026-06-14,146
+matchday	Canada,2026-06-15,157
+matchday	Canada,2026-06-18,142
+matchday	Canada,2026-06-19,149
+matchday	Canada,2026-06-22,175
+matchday	Canada,2026-06-25,1094
+matchday	Canada,2026-07-04,271
+matchday	Canada,2026-07-10,280
+matchday	Canada,2026-07-19,878
+matchday	Canada,2026/06/25,22
+matchday	Canada,not-a-date,24
+matchday	Germany,2026-05-01,21
+matchday	Germany,2026-06-12,123
+matchday	Germany,2026-06-13,164
+matchday	Germany,2026-06-14,149
+matchday	Germany,2026-06-15,126
+matchday	Germany,2026-06-18,162
+matchday	Germany,2026-06-19,144
+matchday	Germany,2026-06-22,195
+matchday	Germany,2026-06-25,1015
+matchday	Germany,2026-07-04,237
+matchday	Germany,2026-07-10,288
+matchday	Germany,2026-07-19,859
+matchday	Germany,2026/06/25,25
+matchday	Germany,not-a-date,30
+matchday	Iran,2026-05-01,26
+matchday	Iran,2026-06-12,135
+matchday	Iran,2026-06-13,200
+matchday	Iran,2026-06-14,131
+matchday	Iran,2026-06-15,122
+matchday	Iran,2026-06-18,132
+matchday	Iran,2026-06-19,150
+matchday	Iran,2026-06-22,169
+matchday	Iran,2026-06-25,1042
+matchday	Iran,2026-07-04,235
+matchday	Iran,2026-07-10,266
+matchday	Iran,2026-07-19,810
+matchday	Iran,2026/06/25,28
+matchday	Iran,not-a-date,27
+matchday	Japan,2026-05-01,22
+matchday	Japan,2026-06-12,139
+matchday	Japan,2026-06-13,177
+matchday	Japan,2026-06-14,152
+matchday	Japan,2026-06-15,134
+matchday	Japan,2026-06-18,130
+matchday	Japan,2026-06-19,138
+matchday	Japan,2026-06-22,186
+matchday	Japan,2026-06-25,1002
+matchday	Japan,2026-07-04,246
+matchday	Japan,2026-07-10,253
+matchday	Japan,2026-07-19,841
+matchday	Japan,2026/06/25,31
+matchday	Japan,not-a-date,20
+matchday	Mexico,2026-05-01,21
+matchday	Mexico,2026-06-12,138
+matchday	Mexico,2026-06-13,174
+matchday	Mexico,2026-06-14,142
+matchday	Mexico,2026-06-15,125
+matchday	Mexico,2026-06-18,117
+matchday	Mexico,2026-06-19,137
+matchday	Mexico,2026-06-22,171
+matchday	Mexico,2026-06-25,1048
+matchday	Mexico,2026-07-04,276
+matchday	Mexico,2026-07-10,273
+matchday	Mexico,2026-07-19,892
+matchday	Mexico,2026/06/25,23
+matchday	Mexico,not-a-date,28
+matchday	USA,2026-05-01,21
+matchday	USA,2026-06-12,122
+matchday	USA,2026-06-13,178
+matchday	USA,2026-06-14,137
+matchday	USA,2026-06-15,150
+matchday	USA,2026-06-18,157
+matchday	USA,2026-06-19,124
+matchday	USA,2026-06-22,173
+matchday	USA,2026-06-25,1060
+matchday	USA,2026-07-04,252
+matchday	USA,2026-07-10,258
+matchday	USA,2026-07-19,804
+matchday	USA,2026/06/25,27
+matchday	USA,not-a-date,15
+stadium	Argentina,city,Dallas,101
+stadium	Argentina,city,Los Angeles,89
+stadium	Argentina,city,Mexico City,111
+stadium	Argentina,city,New York New Jersey,228
+stadium	Argentina,city,Toronto,65
+stadium	Argentina,city,Vancouver,74
+stadium	Argentina,stadium,Atlanta Stadium,131
+stadium	Argentina,stadium,BC Place Vancouver,115
+stadium	Argentina,stadium,Dallas Stadium,306
+stadium	Argentina,stadium,Houston Stadium,107
+stadium	Argentina,stadium,Los Angeles Stadium,220
+stadium	Argentina,stadium,Mexico City Stadium,231
+stadium	Argentina,stadium,New York New Jersey Stadium,771
+stadium	Argentina,stadium,Toronto Stadium,85
+stadium	Argentina,stadium,Unknown Stadium,34
+stadium	Brazil,city,Dallas,110
+stadium	Brazil,city,Los Angeles,87
+stadium	Brazil,city,Mexico City,84
+stadium	Brazil,city,New York New Jersey,229
+stadium	Brazil,city,Toronto,55
+stadium	Brazil,city,Vancouver,67
+stadium	Brazil,stadium,Atlanta Stadium,139
+stadium	Brazil,stadium,BC Place Vancouver,126
+stadium	Brazil,stadium,Dallas Stadium,322
+stadium	Brazil,stadium,Houston Stadium,102
+stadium	Brazil,stadium,Los Angeles Stadium,208
+stadium	Brazil,stadium,Mexico City Stadium,237
+stadium	Brazil,stadium,New York New Jersey Stadium,890
+stadium	Brazil,stadium,Toronto Stadium,71
+stadium	Brazil,stadium,Unknown Stadium,40
+stadium	Canada,city,Dallas,104
+stadium	Canada,city,Los Angeles,82
+stadium	Canada,city,Mexico City,87
+stadium	Canada,city,New York New Jersey,242
+stadium	Canada,city,Toronto,80
+stadium	Canada,city,Vancouver,81
+stadium	Canada,stadium,Atlanta Stadium,142
+stadium	Canada,stadium,BC Place Vancouver,134
+stadium	Canada,stadium,Dallas Stadium,308
+stadium	Canada,stadium,Houston Stadium,102
+stadium	Canada,stadium,Los Angeles Stadium,200
+stadium	Canada,stadium,Mexico City Stadium,229
+stadium	Canada,stadium,New York New Jersey Stadium,839
+stadium	Canada,stadium,Toronto Stadium,82
+stadium	Canada,stadium,Unknown Stadium,45
+stadium	Germany,city,Dallas,106
+stadium	Germany,city,Los Angeles,82
+stadium	Germany,city,Mexico City,116
+stadium	Germany,city,New York New Jersey,216
+stadium	Germany,city,Toronto,73
+stadium	Germany,city,Vancouver,89
+stadium	Germany,stadium,Atlanta Stadium,128
+stadium	Germany,stadium,BC Place Vancouver,131
+stadium	Germany,stadium,Dallas Stadium,345
+stadium	Germany,stadium,Houston Stadium,104
+stadium	Germany,stadium,Los Angeles Stadium,192
+stadium	Germany,stadium,Mexico City Stadium,231
+stadium	Germany,stadium,New York New Jersey Stadium,774
+stadium	Germany,stadium,Toronto Stadium,95
+stadium	Germany,stadium,Unknown Stadium,33
+stadium	Iran,city,Dallas,109
+stadium	Iran,city,Los Angeles,91
+stadium	Iran,city,Mexico City,105
+stadium	Iran,city,New York New Jersey,239
+stadium	Iran,city,Toronto,81
+stadium	Iran,city,Vancouver,85
+stadium	Iran,stadium,Atlanta Stadium,156
+stadium	Iran,stadium,BC Place Vancouver,122
+stadium	Iran,stadium,Dallas Stadium,284
+stadium	Iran,stadium,Houston Stadium,103
+stadium	Iran,stadium,Los Angeles Stadium,162
+stadium	Iran,stadium,Mexico City Stadium,229
+stadium	Iran,stadium,New York New Jersey Stadium,858
+stadium	Iran,stadium,Toronto Stadium,73
+stadium	Iran,stadium,Unknown Stadium,40
+stadium	Japan,city,Dallas,106
+stadium	Japan,city,Los Angeles,81
+stadium	Japan,city,Mexico City,116
+stadium	Japan,city,New York New Jersey,216
+stadium	Japan,city,Toronto,77
+stadium	Japan,city,Vancouver,70
+stadium	Japan,stadium,Atlanta Stadium,154
+stadium	Japan,stadium,BC Place Vancouver,116
+stadium	Japan,stadium,Dallas Stadium,330
+stadium	Japan,stadium,Houston Stadium,104
+stadium	Japan,stadium,Los Angeles Stadium,178
+stadium	Japan,stadium,Mexico City Stadium,241
+stadium	Japan,stadium,New York New Jersey Stadium,875
+stadium	Japan,stadium,Toronto Stadium,91
+stadium	Japan,stadium,Unknown Stadium,35
+stadium	Mexico,city,Dallas,84
+stadium	Mexico,city,Los Angeles,73
+stadium	Mexico,city,Mexico City,108
+stadium	Mexico,city,New York New Jersey,250
+stadium	Mexico,city,Toronto,70
+stadium	Mexico,city,Vancouver,92
+stadium	Mexico,stadium,Atlanta Stadium,161
+stadium	Mexico,stadium,BC Place Vancouver,127
+stadium	Mexico,stadium,Dallas Stadium,328
+stadium	Mexico,stadium,Houston Stadium,116
+stadium	Mexico,stadium,Los Angeles Stadium,195
+stadium	Mexico,stadium,Mexico City Stadium,242
+stadium	Mexico,stadium,New York New Jersey Stadium,867
+stadium	Mexico,stadium,Toronto Stadium,75
+stadium	Mexico,stadium,Unknown Stadium,39
+stadium	USA,city,Dallas,84
+stadium	USA,city,Los Angeles,102
+stadium	USA,city,Mexico City,97
+stadium	USA,city,New York New Jersey,236
+stadium	USA,city,Toronto,79
+stadium	USA,city,Vancouver,85
+stadium	USA,stadium,Atlanta Stadium,148
+stadium	USA,stadium,BC Place Vancouver,126
+stadium	USA,stadium,Dallas Stadium,310
+stadium	USA,stadium,Houston Stadium,110
+stadium	USA,stadium,Los Angeles Stadium,159
+stadium	USA,stadium,Mexico City Stadium,259
+stadium	USA,stadium,New York New Jersey Stadium,903
+stadium	USA,stadium,Toronto Stadium,75
+stadium	USA,stadium,Unknown Stadium,47
+team	Argentina,Argentina,4146
+team	Argentina,Brazil,1499
+team	Argentina,Spain,547
+team	Argentina,Unknown Team,77
+team	Brazil,Argentina,1752
+team	Brazil,Brazil,3742
+team	Brazil,Portugal,561
+team	Brazil,Unknown Team,89
+team	Canada,Argentina,1742
+team	Canada,Canada,3736
+team	Canada,France,615
+team	Canada,Unknown Team,80
+team	Germany,Argentina,1800
+team	Germany,France,542
+team	Germany,Germany,3718
+team	Germany,Unknown Team,74
+team	Iran,Argentina,1697
+team	Iran,Germany,605
+team	Iran,Iran,3740
+team	Iran,Unknown Team,87
+team	Japan,Argentina,1800
+team	Japan,Japan,3682
+team	Japan,South Korea,620
+team	Japan,Unknown Team,104
+team	Mexico,Argentina,1756
+team	Mexico,Mexico,3735
+team	Mexico,USA,559
+team	Mexico,Unknown Team,86
+team	USA,Argentina,1779
+team	USA,Mexico,597
+team	USA,USA,3679
+team	USA,Unknown Team,87

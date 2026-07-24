@@ -1,0 +1,230 @@
+stages:
+  - test
+  - build
+  - deploy
+  - traffic
+  - mapreduce
+  - validate
+  - report
+  - publish
+
+variables:
+  NS: cc-project
+  REGISTRY: registry.cc-project.svc:5000
+  IMAGE_TAG: "$CI_COMMIT_SHORT_SHA"
+  TRAFFIC_REQUESTS: "100000"
+  FF_USE_POD_ACTIVE_DEADLINE_SECONDS: "true"
+
+default:
+  interruptible: false
+  retry:
+    max: 1
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+test-code:
+  stage: test
+  image: python:3.12-slim
+  script:
+    - bash tests/run_phase2_static_tests.sh
+  timeout: 10m
+
+.kaniko-build:
+  stage: build
+  image:
+    # Docker Hub mirror of the archived upstream image; gcr.io is blocked in
+    # some university/ISP networks.
+    name: chinayin/kaniko-project:v1.23.2-debug
+    entrypoint: [""]
+  script:
+    - >-
+      /kaniko/executor --context "$CI_PROJECT_DIR/$BUILD_CONTEXT"
+      --dockerfile "$CI_PROJECT_DIR/$DOCKERFILE"
+      --destination "$REGISTRY/cc-phase2/$IMAGE_NAME:$IMAGE_TAG"
+      --build-arg "BASE_IMAGE=$BASE_IMAGE"
+      --insecure --insecure-registry "$REGISTRY"
+      --skip-tls-verify --cache=true
+      --cache-repo "$REGISTRY/cc-phase2/cache"
+      $KANIKO_EXTRA_FLAGS
+  timeout: 45m
+
+build-match-service:
+  extends: .kaniko-build
+  variables:
+    BUILD_CONTEXT: match-service
+    DOCKERFILE: match-service/Dockerfile
+    IMAGE_NAME: match-service
+    BASE_IMAGE: python:3.12-slim
+    KANIKO_EXTRA_FLAGS: ""
+
+build-team-service:
+  extends: .kaniko-build
+  needs: [build-match-service]
+  variables:
+    BUILD_CONTEXT: team-service
+    DOCKERFILE: team-service/Dockerfile
+    IMAGE_NAME: team-service
+    BASE_IMAGE: "$REGISTRY/cc-phase2/match-service:$IMAGE_TAG"
+    KANIKO_EXTRA_FLAGS: ""
+
+build-stadium-service:
+  extends: .kaniko-build
+  needs: [build-match-service]
+  variables:
+    BUILD_CONTEXT: stadium-service
+    DOCKERFILE: stadium-service/Dockerfile
+    IMAGE_NAME: stadium-service
+    BASE_IMAGE: "$REGISTRY/cc-phase2/match-service:$IMAGE_TAG"
+    KANIKO_EXTRA_FLAGS: ""
+
+build-traffic-generator:
+  extends: .kaniko-build
+  needs: [build-match-service]
+  variables:
+    BUILD_CONTEXT: traffic-generator
+    DOCKERFILE: traffic-generator/Dockerfile
+    IMAGE_NAME: traffic-generator
+    BASE_IMAGE: "$REGISTRY/cc-phase2/match-service:$IMAGE_TAG"
+    KANIKO_EXTRA_FLAGS: ""
+
+build-phase2-tools:
+  extends: .kaniko-build
+  needs: [build-match-service]
+  variables:
+    BUILD_CONTEXT: "."
+    DOCKERFILE: phase2-tools/Dockerfile
+    IMAGE_NAME: phase2-tools
+    BASE_IMAGE: "$REGISTRY/cc-phase2/match-service:$IMAGE_TAG"
+    KANIKO_EXTRA_FLAGS: ""
+
+build-hadoop-streaming:
+  extends: .kaniko-build
+  variables:
+    BUILD_CONTEXT: "."
+    DOCKERFILE: hadoop-k8s/Dockerfile
+    IMAGE_NAME: hadoop-streaming
+    BASE_IMAGE: eclipse-temurin:11-jre-jammy
+    KANIKO_EXTRA_FLAGS: "--compressed-caching=false"
+    KUBERNETES_MEMORY_LIMIT: "2500Mi"
+
+deploy-kubernetes:
+  stage: deploy
+  image:
+    name: alpine/k8s:1.32.3
+    entrypoint: [""]
+  script:
+    - kubectl apply -f k8s/base/00-namespace-storage.yaml
+    - kubectl apply -f k8s/base/01-registry.yaml
+    - >-
+      sed
+      -e "s|cc-phase2/match-service:dev|$REGISTRY/cc-phase2/match-service:$IMAGE_TAG|g"
+      -e "s|cc-phase2/team-service:dev|$REGISTRY/cc-phase2/team-service:$IMAGE_TAG|g"
+      -e "s|cc-phase2/stadium-service:dev|$REGISTRY/cc-phase2/stadium-service:$IMAGE_TAG|g"
+      k8s/base/02-backends.yaml | kubectl apply -f -
+    - kubectl apply -f k8s/base/03-nginx.yaml
+    - kubectl apply -f k8s/base/04-report-web.yaml
+    - kubectl apply -f k8s/base/05-hadoop.yaml
+    - kubectl -n "$NS" rollout status deployment/match-service --timeout=5m
+    - kubectl -n "$NS" rollout status deployment/team-service --timeout=5m
+    - kubectl -n "$NS" rollout status deployment/stadium-service --timeout=5m
+    - kubectl -n "$NS" rollout status deployment/nginx-gateway --timeout=5m
+  timeout: 15m
+
+generate-traffic:
+  stage: traffic
+  image:
+    name: alpine/k8s:1.32.3
+    entrypoint: [""]
+  script:
+    - kubectl -n "$NS" scale deployment nginx-gateway match-service team-service stadium-service --replicas=0
+    - kubectl -n "$NS" wait --for=delete pod -l app=nginx-gateway --timeout=3m
+    - kubectl -n "$NS" delete job reset-project-data --ignore-not-found
+    - kubectl apply -f k8s/jobs/reset-data.yaml
+    - kubectl -n "$NS" wait --for=condition=complete job/reset-project-data --timeout=3m
+    - kubectl -n "$NS" logs job/reset-project-data
+    - kubectl -n "$NS" scale deployment nginx-gateway match-service team-service stadium-service --replicas=1
+    - kubectl -n "$NS" rollout status deployment/match-service --timeout=5m
+    - kubectl -n "$NS" rollout status deployment/team-service --timeout=5m
+    - kubectl -n "$NS" rollout status deployment/stadium-service --timeout=5m
+    - kubectl -n "$NS" rollout status deployment/nginx-gateway --timeout=5m
+    - kubectl -n "$NS" delete job traffic-generator --ignore-not-found
+    - >-
+      sed -e "s|__IMAGE_TAG__|$IMAGE_TAG|g"
+      -e "s|__REQUESTS__|$TRAFFIC_REQUESTS|g"
+      k8s/jobs/traffic-job.yaml | kubectl apply -f -
+    - kubectl -n "$NS" wait --for=condition=complete job/traffic-generator --timeout=20m
+    - kubectl -n "$NS" logs job/traffic-generator
+  timeout: 25m
+
+run-mapreduce:
+  stage: mapreduce
+  image:
+    name: alpine/k8s:1.32.3
+    entrypoint: [""]
+  script:
+    - kubectl -n "$NS" scale statefulset namenode datanode --replicas=1
+    - kubectl -n "$NS" rollout status statefulset/namenode --timeout=8m
+    - kubectl -n "$NS" rollout status statefulset/datanode --timeout=8m
+    - kubectl -n "$NS" delete job mapreduce-pipeline --ignore-not-found
+    - sed "s|__IMAGE_TAG__|$IMAGE_TAG|g" k8s/jobs/mapreduce-job.yaml | kubectl apply -f -
+    - kubectl -n "$NS" wait --for=condition=complete job/mapreduce-pipeline --timeout=30m
+    - kubectl -n "$NS" logs job/mapreduce-pipeline
+  after_script:
+    - kubectl -n "$NS" scale statefulset namenode datanode --replicas=0 || true
+  timeout: 35m
+
+validate-output:
+  stage: validate
+  image:
+    name: alpine/k8s:1.32.3
+    entrypoint: [""]
+  script:
+    - kubectl -n "$NS" delete job validate-output --ignore-not-found
+    - sed "s|__IMAGE_TAG__|$IMAGE_TAG|g" k8s/jobs/validate-output.yaml | kubectl apply -f -
+    - kubectl -n "$NS" wait --for=condition=complete job/validate-output --timeout=5m
+    - kubectl -n "$NS" logs job/validate-output
+  timeout: 10m
+
+generate-report:
+  stage: report
+  image:
+    name: alpine/k8s:1.32.3
+    entrypoint: [""]
+  script:
+    - kubectl -n "$NS" delete job generate-report --ignore-not-found
+    - sed "s|__IMAGE_TAG__|$IMAGE_TAG|g" k8s/jobs/report-job.yaml | kubectl apply -f -
+    - kubectl -n "$NS" wait --for=condition=complete job/generate-report --timeout=5m
+    - kubectl -n "$NS" logs job/generate-report
+    - mkdir -p pipeline-artifacts
+    - cp /project-data/outputs/final/index.html pipeline-artifacts/index.html
+    - cp /project-data/outputs/final/summary.json pipeline-artifacts/summary.json
+    - cp /project-data/outputs/job2/service_stats.csv pipeline-artifacts/service_stats.csv
+  artifacts:
+    name: "phase2-report-$CI_COMMIT_SHORT_SHA"
+    paths:
+      - pipeline-artifacts/
+    expire_in: 30 days
+  timeout: 10m
+
+publish-report:
+  stage: publish
+  image:
+    name: alpine/k8s:1.32.3
+    entrypoint: [""]
+  script:
+    - kubectl apply -f k8s/base/04-report-web.yaml
+    - kubectl -n "$NS" rollout restart deployment/report-web
+    - kubectl -n "$NS" rollout status deployment/report-web --timeout=5m
+    - kubectl -n "$NS" delete pod report-publish-check --ignore-not-found
+    - >-
+      kubectl -n "$NS" run report-publish-check
+      --image=busybox:1.36 --restart=Never
+      --command -- wget -T 5 -t 12 -qO- http://report-web/summary.json
+    - kubectl -n "$NS" wait --for=condition=Ready pod/report-publish-check --timeout=2m || true
+    - kubectl -n "$NS" wait --for=jsonpath='{.status.phase}'=Succeeded pod/report-publish-check --timeout=3m
+    - kubectl -n "$NS" logs report-publish-check
+  environment:
+    name: phase2-report
+    url: http://localhost:9000/index.html
+  timeout: 10m

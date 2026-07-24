@@ -1,0 +1,20 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+networking:
+  serviceSubnet: 10.96.0.0/16
+containerdConfigPatches:
+  - |-
+    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."registry.cc-project.svc:5000"]
+      endpoint = ["http://10.96.0.50:5000"]
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 30080
+        hostPort: 8080
+        protocol: TCP
+      - containerPort: 30880
+        hostPort: 8929
+        protocol: TCP
+      - containerPort: 30090
+        hostPort: 9000
+        protocol: TCP

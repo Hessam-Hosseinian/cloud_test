@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cc-project
+  labels:
+    app.kubernetes.io/part-of: cc-project-phase2
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: project-data
+  namespace: cc-project
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: registry-data
+  namespace: cc-project
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 3Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-data
+  namespace: cc-project
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitlab-config
+  namespace: cc-project
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi

@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: generate-report
+  namespace: cc-project
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: generate-report
+    spec:
+      restartPolicy: Never
+      securityContext:
+        fsGroup: 2000
+      initContainers:
+        - name: prepare-report-directory
+          image: busybox:1.36
+          command:
+            - sh
+            - -ec
+            - >-
+              mkdir -p /project-data/outputs/final &&
+              chgrp 2000 /project-data/outputs/final &&
+              chmod 0775 /project-data/outputs/final
+          resources:
+            requests: {cpu: 5m, memory: 4Mi}
+            limits: {cpu: 50m, memory: 16Mi}
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      containers:
+        - name: report
+          image: registry.cc-project.svc:5000/cc-phase2/phase2-tools:__IMAGE_TAG__
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - /project/report-web/generate_dashboard.py
+            - --summary
+            - /project-data/outputs/final/summary.json
+            - --service-stats
+            - /project-data/outputs/job2/service_stats.csv
+            - --output
+            - /project-data/outputs/final/index.html
+          resources:
+            requests: {cpu: 25m, memory: 24Mi}
+            limits: {cpu: 300m, memory: 128Mi}
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data

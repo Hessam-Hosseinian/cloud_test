@@ -1,0 +1,4 @@
+name,total_requests,successful_requests,client_errors,server_errors,error_rate_percent,avg_response_time_ms
+/api/matches,28162,27292,563,307,3.0893,32.131
+/api/stadiums,22219,21565,451,203,2.9434,32.254
+/api/teams,49619,48158,970,491,2.9444,25.621

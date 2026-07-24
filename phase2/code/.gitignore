@@ -1,0 +1,11 @@
+**/__pycache__/
+*.py[cod]
+data/nginx/*.log
+data/service_logs/*.log
+data/namenode/
+data/datanode/
+outputs/
+checkpoints/
+k8s/generated/
+.phase2-secrets/
+pipeline-artifacts/

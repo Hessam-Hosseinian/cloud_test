@@ -1,0 +1,3 @@
+{"window":{"start":"2026-07-21T16:05:00.000Z","end":"2026-07-21T16:05:10.000Z"},"service":"team-service","endpoint":"/api/teams","total_requests":979,"errors":25,"avg_response_time_ms":23.768130745658837,"error_rate_percent":2.554}
+{"window":{"start":"2026-07-21T16:05:00.000Z","end":"2026-07-21T16:05:10.000Z"},"service":"match-service","endpoint":"/api/matches","total_requests":574,"errors":17,"avg_response_time_ms":29.425087108013937,"error_rate_percent":2.962}
+{"window":{"start":"2026-07-21T16:05:00.000Z","end":"2026-07-21T16:05:10.000Z"},"service":"stadium-service","endpoint":"/api/stadiums","total_requests":447,"errors":5,"avg_response_time_ms":31.25950782997763,"error_rate_percent":1.119}

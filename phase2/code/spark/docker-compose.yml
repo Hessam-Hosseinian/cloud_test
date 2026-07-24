@@ -1,0 +1,17 @@
+services:
+  spark:
+    image: apache/spark:3.5.5
+    user: "0:0"
+    working_dir: /project
+    volumes:
+      - ../:/project
+    mem_limit: 1600m
+    cpus: 2.0
+    pids_limit: 256
+    environment:
+      - SPARK_LOCAL_IP=127.0.0.1
+      - PYSPARK_PYTHON=python3
+      - JAVA_TOOL_OPTIONS=-XX:ActiveProcessorCount=2 -Xss512k
+      - OPENBLAS_NUM_THREADS=1
+      - OMP_NUM_THREADS=1
+    entrypoint: ["/opt/spark/bin/spark-submit"]

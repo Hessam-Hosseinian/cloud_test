@@ -1,0 +1,119 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: namenode
+  namespace: cc-project
+spec:
+  selector:
+    app: namenode
+  ports:
+    - {name: rpc, port: 8020, targetPort: 8020}
+    - {name: web, port: 9870, targetPort: 9870}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: namenode
+  namespace: cc-project
+spec:
+  serviceName: namenode
+  replicas: 0
+  selector:
+    matchLabels:
+      app: namenode
+  template:
+    metadata:
+      labels:
+        app: namenode
+    spec:
+      containers:
+        - name: namenode
+          image: registry.docker.ir/bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: CLUSTER_NAME, value: cc-phase2}
+            - {name: CORE_CONF_fs_defaultFS, value: "hdfs://namenode:8020"}
+            - {name: HDFS_CONF_dfs_permissions_enabled, value: "false"}
+            - {name: HDFS_CONF_dfs_replication, value: "1"}
+            - {name: HDFS_CONF_dfs_namenode_datanode_registration_ip___hostname___check, value: "false"}
+            - {name: HADOOP_HEAPSIZE_MAX, value: "384"}
+          ports:
+            - {name: rpc, containerPort: 8020}
+            - {name: web, containerPort: 9870}
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {cpu: "1", memory: 800Mi}
+          readinessProbe:
+            tcpSocket: {port: rpc}
+            initialDelaySeconds: 8
+            periodSeconds: 5
+          volumeMounts:
+            - {name: name-data, mountPath: /hadoop/dfs/name}
+  volumeClaimTemplates:
+    - metadata:
+        name: name-data
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datanode
+  namespace: cc-project
+spec:
+  clusterIP: None
+  selector:
+    app: datanode
+  ports:
+    - {name: data, port: 9866, targetPort: 9866}
+    - {name: web, port: 9864, targetPort: 9864}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: datanode
+  namespace: cc-project
+spec:
+  serviceName: datanode
+  replicas: 0
+  selector:
+    matchLabels:
+      app: datanode
+  template:
+    metadata:
+      labels:
+        app: datanode
+    spec:
+      containers:
+        - name: datanode
+          image: registry.docker.ir/bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: SERVICE_PRECONDITION, value: "namenode:8020"}
+            - {name: CORE_CONF_fs_defaultFS, value: "hdfs://namenode:8020"}
+            - {name: HDFS_CONF_dfs_permissions_enabled, value: "false"}
+            - {name: HDFS_CONF_dfs_replication, value: "1"}
+            - {name: HADOOP_HEAPSIZE_MAX, value: "320"}
+          ports:
+            - {name: data, containerPort: 9866}
+            - {name: web, containerPort: 9864}
+          resources:
+            requests: {cpu: 100m, memory: 224Mi}
+            limits: {cpu: 600m, memory: 600Mi}
+          readinessProbe:
+            tcpSocket: {port: data}
+            initialDelaySeconds: 8
+            periodSeconds: 5
+          volumeMounts:
+            - {name: data-data, mountPath: /hadoop/dfs/data}
+  volumeClaimTemplates:
+    - metadata:
+        name: data-data
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 2Gi

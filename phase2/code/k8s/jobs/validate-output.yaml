@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: validate-output
+  namespace: cc-project
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: validate-output
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: validator
+          image: registry.cc-project.svc:5000/cc-phase2/phase2-tools:__IMAGE_TAG__
+          imagePullPolicy: IfNotPresent
+          command: [python, /project/scripts/validate_outputs.py]
+          workingDir: /project-data
+          env:
+            - {name: EXPECTED_REQUESTS, value: "100000"}
+          resources:
+            requests: {cpu: 25m, memory: 24Mi}
+            limits: {cpu: 300m, memory: 128Mi}
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+              readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data

@@ -1,0 +1,206 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: match-service
+  namespace: cc-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: match-service
+  template:
+    metadata:
+      labels:
+        app: match-service
+    spec:
+      securityContext:
+        fsGroup: 2000
+      initContainers:
+        - name: prepare-log-directory
+          image: busybox:1.36
+          command: [sh, -ec, "mkdir -p /project-data/data/service_logs && chmod 0777 /project-data/data/service_logs"]
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      containers:
+        - name: match-service
+          image: cc-phase2/match-service:dev
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVICE_LOG_PATH
+              value: /project-data/data/service_logs/match_service.log
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 160Mi
+          readinessProbe:
+            httpGet: {path: /health, port: http}
+            periodSeconds: 3
+          livenessProbe:
+            httpGet: {path: /health, port: http}
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: match-service
+  namespace: cc-project
+spec:
+  selector:
+    app: match-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: team-service
+  namespace: cc-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: team-service
+  template:
+    metadata:
+      labels:
+        app: team-service
+    spec:
+      securityContext:
+        fsGroup: 2000
+      initContainers:
+        - name: prepare-log-directory
+          image: busybox:1.36
+          command: [sh, -ec, "mkdir -p /project-data/data/service_logs && chmod 0777 /project-data/data/service_logs"]
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      containers:
+        - name: team-service
+          image: cc-phase2/team-service:dev
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVICE_LOG_PATH
+              value: /project-data/data/service_logs/team_service.log
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 160Mi
+          readinessProbe:
+            httpGet: {path: /health, port: http}
+            periodSeconds: 3
+          livenessProbe:
+            httpGet: {path: /health, port: http}
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: team-service
+  namespace: cc-project
+spec:
+  selector:
+    app: team-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stadium-service
+  namespace: cc-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stadium-service
+  template:
+    metadata:
+      labels:
+        app: stadium-service
+    spec:
+      securityContext:
+        fsGroup: 2000
+      initContainers:
+        - name: prepare-log-directory
+          image: busybox:1.36
+          command: [sh, -ec, "mkdir -p /project-data/data/service_logs && chmod 0777 /project-data/data/service_logs"]
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      containers:
+        - name: stadium-service
+          image: cc-phase2/stadium-service:dev
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SERVICE_LOG_PATH
+              value: /project-data/data/service_logs/stadium_service.log
+          ports:
+            - name: http
+              containerPort: 8000
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 160Mi
+          readinessProbe:
+            httpGet: {path: /health, port: http}
+            periodSeconds: 3
+          livenessProbe:
+            httpGet: {path: /health, port: http}
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stadium-service
+  namespace: cc-project
+spec:
+  selector:
+    app: stadium-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000

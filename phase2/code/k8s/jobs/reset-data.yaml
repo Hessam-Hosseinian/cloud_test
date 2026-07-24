@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: reset-project-data
+  namespace: cc-project
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: reset-project-data
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: reset
+          image: busybox:1.36
+          command: [sh, -ec]
+          args:
+            - |
+              mkdir -p /project-data/data/nginx \
+                /project-data/data/service_logs \
+                /project-data/outputs
+              : > /project-data/data/nginx/nginx_access.log
+              : > /project-data/data/service_logs/match_service.log
+              : > /project-data/data/service_logs/team_service.log
+              : > /project-data/data/service_logs/stadium_service.log
+              if [ -d /project-data/nginx ]; then
+                find /project-data/nginx -mindepth 1 -delete
+                rmdir /project-data/nginx
+              fi
+              find /project-data/outputs -mindepth 1 -delete
+              echo "Shared project data reset completed."
+          resources:
+            requests: {cpu: 10m, memory: 8Mi}
+            limits: {cpu: 100m, memory: 32Mi}
+          volumeMounts:
+            - name: data
+              mountPath: /project-data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data

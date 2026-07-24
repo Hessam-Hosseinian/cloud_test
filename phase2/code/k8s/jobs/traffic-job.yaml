@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: traffic-generator
+  namespace: cc-project
+spec:
+  backoffLimit: 1
+  template:
+    metadata:
+      labels:
+        app: traffic-generator
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: generator
+          image: registry.cc-project.svc:5000/cc-phase2/traffic-generator:__IMAGE_TAG__
+          imagePullPolicy: IfNotPresent
+          args:
+            - --nginx-url
+            - http://nginx-gateway:80
+            - --requests
+            - "__REQUESTS__"
+            - --workers
+            - "32"
+            - --seed
+            - "1405"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 32Mi
+            limits:
+              cpu: "2"
+              memory: 192Mi

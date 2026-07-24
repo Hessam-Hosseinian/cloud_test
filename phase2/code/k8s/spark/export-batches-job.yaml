@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: spark-export-batches
+  namespace: cc-project
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app: spark-export-batches
+    spec:
+      restartPolicy: Never
+      securityContext:
+        fsGroup: 2000
+      containers:
+        - name: exporter
+          image: registry.cc-project.svc:5000/cc-phase2/phase2-tools:__IMAGE_TAG__
+          imagePullPolicy: IfNotPresent
+          command: [/bin/sh, -ec]
+          args:
+            - |
+              python /project/scripts/export_log_batches.py \
+                --source /project-data/data/nginx/nginx_access.log \
+                --output /project-data/data/stream/nginx \
+                --prefix nginx --batch-size 200 --max-lines 1000 --delay 0.4
+              python /project/scripts/export_log_batches.py \
+                --source /project-data/data/service_logs/team_service.log \
+                --output /project-data/data/stream/services \
+                --prefix team --batch-size 200 --max-lines 1000 --delay 0.4
+          resources:
+            requests: {cpu: 25m, memory: 24Mi}
+            limits: {cpu: 250m, memory: 128Mi}
+          volumeMounts:
+            - {name: data, mountPath: /project-data}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: project-data

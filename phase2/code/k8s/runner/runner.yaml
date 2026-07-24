@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-runner-config
+  namespace: cc-project
+data:
+  config.toml: |
+    concurrent = 1
+    check_interval = 3
+    shutdown_timeout = 30
+
+    [[runners]]
+      name = "cc-project-kubernetes-runner"
+      url = "http://gitlab.cc-project.svc"
+      token = "__RUNNER_AUTH_TOKEN__"
+      executor = "kubernetes"
+      request_concurrency = 1
+      [runners.kubernetes]
+        namespace = "cc-project"
+        image = "alpine:3.20"
+        helper_image = "gitlab/gitlab-runner-helper:x86_64-v17.11.1"
+        service_account = "gitlab-runner"
+        poll_timeout = 900
+        cpu_request = "50m"
+        memory_request = "64Mi"
+        cpu_limit = "2"
+        memory_limit = "2Gi"
+        memory_limit_overwrite_max_allowed = "2500Mi"
+        helper_cpu_request = "20m"
+        helper_memory_request = "32Mi"
+        helper_memory_limit = "256Mi"
+      [[runners.kubernetes.volumes.pvc]]
+        name = "project-data"
+        mount_path = "/project-data"
+        read_only = false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab-runner
+  namespace: cc-project
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab-runner
+  template:
+    metadata:
+      labels:
+        app: gitlab-runner
+    spec:
+      serviceAccountName: gitlab-runner
+      containers:
+        - name: runner
+          image: gitlab/gitlab-runner:alpine-v17.11.1
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: RUNNER_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: gitlab-runner-auth
+                  key: runner-token
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              sed "s|__RUNNER_AUTH_TOKEN__|${RUNNER_AUTH_TOKEN}|g" \
+                /config-template/config.toml > /home/gitlab-runner/config.toml
+              exec gitlab-runner run \
+                --config /home/gitlab-runner/config.toml \
+                --working-directory /home/gitlab-runner
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 384Mi
+          volumeMounts:
+            - name: config-template
+              mountPath: /config-template
+              readOnly: true
+            - name: runtime-config
+              mountPath: /home/gitlab-runner
+      volumes:
+        - name: config-template
+          configMap:
+            name: gitlab-runner-config
+        - name: runtime-config
+          emptyDir: {}

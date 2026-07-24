@@ -1,0 +1,33 @@
+# Credentials and local configuration
+**/.phase2-secrets/
+**/.env
+**/.env.*
+!**/.env.example
+*.pem
+*.key
+
+# Python caches and virtual environments
+**/__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Runtime-only distributed storage
+**/data/namenode/
+**/data/datanode/
+**/checkpoints/
+**/k8s/generated/
+
+# Build and editor files
+*.aux
+*.log
+*.out
+*.toc
+.DS_Store
+.idea/
+.vscode/
+
+# Local archives
+*.zip
+*.tar
+*.tar.gz

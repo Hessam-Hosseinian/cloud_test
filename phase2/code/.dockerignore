@@ -1,0 +1,9 @@
+**/__pycache__/
+**/*.pyc
+data/**
+!data/predictions.json
+outputs/
+report/
+checkpoints/
+.git/
+k8s/generated/

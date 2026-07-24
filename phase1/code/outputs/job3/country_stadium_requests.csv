@@ -1,0 +1,121 @@
+country,entity_type,stadium_or_city,total_requests
+Argentina,city,Dallas,101
+Argentina,city,Los Angeles,89
+Argentina,city,Mexico City,111
+Argentina,city,New York New Jersey,228
+Argentina,city,Toronto,65
+Argentina,city,Vancouver,74
+Argentina,stadium,Atlanta Stadium,131
+Argentina,stadium,BC Place Vancouver,115
+Argentina,stadium,Dallas Stadium,306
+Argentina,stadium,Houston Stadium,107
+Argentina,stadium,Los Angeles Stadium,220
+Argentina,stadium,Mexico City Stadium,231
+Argentina,stadium,New York New Jersey Stadium,771
+Argentina,stadium,Toronto Stadium,85
+Argentina,stadium,Unknown Stadium,34
+Brazil,city,Dallas,110
+Brazil,city,Los Angeles,87
+Brazil,city,Mexico City,84
+Brazil,city,New York New Jersey,229
+Brazil,city,Toronto,55
+Brazil,city,Vancouver,67
+Brazil,stadium,Atlanta Stadium,139
+Brazil,stadium,BC Place Vancouver,126
+Brazil,stadium,Dallas Stadium,322
+Brazil,stadium,Houston Stadium,102
+Brazil,stadium,Los Angeles Stadium,208
+Brazil,stadium,Mexico City Stadium,237
+Brazil,stadium,New York New Jersey Stadium,890
+Brazil,stadium,Toronto Stadium,71
+Brazil,stadium,Unknown Stadium,40
+Canada,city,Dallas,104
+Canada,city,Los Angeles,82
+Canada,city,Mexico City,87
+Canada,city,New York New Jersey,242
+Canada,city,Toronto,80
+Canada,city,Vancouver,81
+Canada,stadium,Atlanta Stadium,142
+Canada,stadium,BC Place Vancouver,134
+Canada,stadium,Dallas Stadium,308
+Canada,stadium,Houston Stadium,102
+Canada,stadium,Los Angeles Stadium,200
+Canada,stadium,Mexico City Stadium,229
+Canada,stadium,New York New Jersey Stadium,839
+Canada,stadium,Toronto Stadium,82
+Canada,stadium,Unknown Stadium,45
+Germany,city,Dallas,106
+Germany,city,Los Angeles,82
+Germany,city,Mexico City,116
+Germany,city,New York New Jersey,216
+Germany,city,Toronto,73
+Germany,city,Vancouver,89
+Germany,stadium,Atlanta Stadium,128
+Germany,stadium,BC Place Vancouver,131
+Germany,stadium,Dallas Stadium,345
+Germany,stadium,Houston Stadium,104
+Germany,stadium,Los Angeles Stadium,192
+Germany,stadium,Mexico City Stadium,231
+Germany,stadium,New York New Jersey Stadium,774
+Germany,stadium,Toronto Stadium,95
+Germany,stadium,Unknown Stadium,33
+Iran,city,Dallas,109
+Iran,city,Los Angeles,91
+Iran,city,Mexico City,105
+Iran,city,New York New Jersey,239
+Iran,city,Toronto,81
+Iran,city,Vancouver,85
+Iran,stadium,Atlanta Stadium,156
+Iran,stadium,BC Place Vancouver,122
+Iran,stadium,Dallas Stadium,284
+Iran,stadium,Houston Stadium,103
+Iran,stadium,Los Angeles Stadium,162
+Iran,stadium,Mexico City Stadium,229
+Iran,stadium,New York New Jersey Stadium,858
+Iran,stadium,Toronto Stadium,73
+Iran,stadium,Unknown Stadium,40
+Japan,city,Dallas,106
+Japan,city,Los Angeles,81
+Japan,city,Mexico City,116
+Japan,city,New York New Jersey,216
+Japan,city,Toronto,77
+Japan,city,Vancouver,70
+Japan,stadium,Atlanta Stadium,154
+Japan,stadium,BC Place Vancouver,116
+Japan,stadium,Dallas Stadium,330
+Japan,stadium,Houston Stadium,104
+Japan,stadium,Los Angeles Stadium,178
+Japan,stadium,Mexico City Stadium,241
+Japan,stadium,New York New Jersey Stadium,875
+Japan,stadium,Toronto Stadium,91
+Japan,stadium,Unknown Stadium,35
+Mexico,city,Dallas,84
+Mexico,city,Los Angeles,73
+Mexico,city,Mexico City,108
+Mexico,city,New York New Jersey,250
+Mexico,city,Toronto,70
+Mexico,city,Vancouver,92
+Mexico,stadium,Atlanta Stadium,161
+Mexico,stadium,BC Place Vancouver,127
+Mexico,stadium,Dallas Stadium,328
+Mexico,stadium,Houston Stadium,116
+Mexico,stadium,Los Angeles Stadium,195
+Mexico,stadium,Mexico City Stadium,242
+Mexico,stadium,New York New Jersey Stadium,867
+Mexico,stadium,Toronto Stadium,75
+Mexico,stadium,Unknown Stadium,39
+USA,city,Dallas,84
+USA,city,Los Angeles,102
+USA,city,Mexico City,97
+USA,city,New York New Jersey,236
+USA,city,Toronto,79
+USA,city,Vancouver,85
+USA,stadium,Atlanta Stadium,148
+USA,stadium,BC Place Vancouver,126
+USA,stadium,Dallas Stadium,310
+USA,stadium,Houston Stadium,110
+USA,stadium,Los Angeles Stadium,159
+USA,stadium,Mexico City Stadium,259
+USA,stadium,New York New Jersey Stadium,903
+USA,stadium,Toronto Stadium,75
+USA,stadium,Unknown Stadium,47

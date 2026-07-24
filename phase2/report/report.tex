@@ -1,0 +1,942 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{geometry}
+\geometry{top=2.2cm,bottom=2.3cm,left=2.0cm,right=2.0cm}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\usepackage{fontawesome5}
+\usepackage{setspace}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xepersian}
+
+\IfFontExistsTF{B Nazanin}{\settextfont{B Nazanin}}%
+  {\IfFontExistsTF{Vazirmatn}{\settextfont{Vazirmatn}}{\settextfont{Amiri}}}
+\IfFontExistsTF{Liberation Serif}{\setlatintextfont{Liberation Serif}}%
+  {\setlatintextfont{Times New Roman}}
+\IfFontExistsTF{JetBrainsMono Nerd Font}{\setmonofont{JetBrainsMono Nerd Font}}%
+  {\setmonofont{DejaVu Sans Mono}}
+\setstretch{1.32}
+
+\definecolor{ink}{HTML}{20242A}
+\definecolor{paper}{HTML}{FBFCFE}
+\definecolor{midnight}{HTML}{263159}
+\definecolor{navy}{HTML}{1E3A5F}
+\definecolor{teal}{HTML}{0F766E}
+\definecolor{green}{HTML}{10B981}
+\definecolor{blue}{HTML}{3B82F6}
+\definecolor{sky}{HTML}{EAF3FF}
+\definecolor{mint}{HTML}{ECFDF3}
+\definecolor{amber}{HTML}{F59E0B}
+\definecolor{gold}{HTML}{E9B949}
+\definecolor{softgold}{HTML}{FFF7D6}
+\definecolor{rose}{HTML}{F43F5E}
+\definecolor{lavender}{HTML}{F3E8FF}
+\definecolor{violet}{HTML}{7C3AED}
+\definecolor{softgray}{HTML}{F5F7FB}
+\definecolor{linegray}{HTML}{D8DEE9}
+
+\hypersetup{colorlinks=true,linkcolor=navy,urlcolor=teal,citecolor=teal}
+\pagecolor{paper}
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\setlength{\emergencystretch}{3em}
+
+\setlist[itemize]{
+  label=\textcolor{teal}{\scriptsize\faCircle},
+  itemsep=0.22em,topsep=0.3em,rightmargin=1.35em
+}
+\setlist[enumerate]{itemsep=0.24em,topsep=0.3em,rightmargin=1.35em}
+
+\lstdefinestyle{codestyle}{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  backgroundcolor=\color{softgray},
+  rulecolor=\color{blue},
+  numbers=none,
+  xleftmargin=0pt,xrightmargin=0pt,
+  aboveskip=0.5em,belowskip=0.5em
+}
+\lstset{style=codestyle}
+
+\newtcolorbox{tocbox}{
+  enhanced,breakable,colback=white,colframe=teal,boxrule=0.9pt,arc=5pt,
+  right=12pt,left=12pt,top=10pt,bottom=10pt,
+  title={\textcolor{white}{\faListUl\hspace{0.45em} فهرست مطالب}},
+  colbacktitle=teal,coltitle=white,fonttitle=\bfseries,
+  attach boxed title to top right={yshift=-2mm,xshift=-2mm},
+  boxed title style={arc=4pt,boxrule=0pt}
+}
+
+\newtcolorbox{infobox}[1]{
+  enhanced,breakable,colback=sky,colframe=blue,boxrule=0.8pt,arc=5pt,
+  right=10pt,left=10pt,top=8pt,bottom=8pt,
+  title={\textcolor{white}{\faInfoCircle\hspace{0.45em} #1}},
+  colbacktitle=blue,coltitle=white,fonttitle=\bfseries
+}
+
+\newtcolorbox{resultbox}[1]{
+  enhanced,breakable,colback=mint,colframe=green,boxrule=0.8pt,arc=5pt,
+  right=10pt,left=10pt,top=8pt,bottom=8pt,
+  title={\textcolor{white}{\faCheckCircle\hspace{0.45em} #1}},
+  colbacktitle=green,coltitle=white,fonttitle=\bfseries
+}
+
+\newtcolorbox{warningbox}[1]{
+  enhanced,breakable,colback=softgold,colframe=amber,boxrule=0.8pt,arc=5pt,
+  right=10pt,left=10pt,top=8pt,bottom=8pt,
+  title={\textcolor{white}{\faExclamationTriangle\hspace{0.45em} #1}},
+  colbacktitle=amber,coltitle=white,fonttitle=\bfseries
+}
+
+\newtcolorbox{scorebox}[1]{
+  enhanced,breakable,colback=lavender,colframe=violet,boxrule=0.8pt,arc=5pt,
+  right=10pt,left=10pt,top=8pt,bottom=8pt,
+  title={\textcolor{white}{\faStar\hspace{0.45em} #1}},
+  colbacktitle=violet,coltitle=white,fonttitle=\bfseries
+}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{midnight}}{}{0pt}
+  {\textcolor{gold}{\faBookOpen}\hspace{0.55em}}
+  [\vspace{0.2em}{\color{gold}\titlerule[0.9pt]}]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{teal}}{}{0pt}
+  {\faBookmark\hspace{0.45em}}
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{navy}}{}{0pt}
+  {\faAngleLeft\hspace{0.4em}}
+\titlespacing*{\section}{0pt}{1.15em}{0.3em}
+\titlespacing*{\subsection}{0pt}{0.85em}{0.18em}
+
+\pagestyle{fancy}
+\setlength{\headheight}{14.5pt}
+\fancyhf{}
+\fancyhead[R]{\small پروژه پایانی رایانش ابری ـ فاز دوم}
+\fancyhead[L]{\small حسینیان ـ قویدل}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\safelogo}[2]{%
+  \IfFileExists{#1}{\includegraphics[width=#2]{#1}}%
+  {\fbox{\parbox[c][1.8cm][c]{2.0cm}{\centering لوگو}}}%
+}
+\newcommand{\codefile}[1]{\lr{\nolinkurl{#1}}}
+\newcommand{\eng}[1]{\lr{#1}}
+
+\newcommand{\makecover}{
+\begin{titlepage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[midnight] (current page.south west) rectangle (current page.north east);
+  \fill[teal] (current page.north west) -- ++(0,-8.3)
+    .. controls +(4.8,-1.1) and +(-4.8,1.3) ..
+    ([yshift=-5.5cm]current page.north east)
+    -- (current page.north east) -- cycle;
+  \fill[blue] ([xshift=1.0cm,yshift=1.0cm]current page.south west) circle (3.3cm);
+  \fill[gold] ([xshift=-2.25cm,yshift=-2.2cm]current page.north east) circle (3.25cm);
+  \fill[softgold] ([xshift=-2.25cm,yshift=-2.2cm]current page.north east) circle (2.25cm);
+  \draw[gold,line width=1.1pt]
+    ([xshift=1.55cm,yshift=-10.7cm]current page.north west) --
+    ([xshift=-1.55cm,yshift=-10.7cm]current page.north east);
+\end{tikzpicture}
+
+\vspace*{1.1cm}
+\begin{center}
+\begin{minipage}{0.18\textwidth}
+\centering\safelogo{ce.png}{2.05cm}
+\end{minipage}
+\begin{minipage}{0.56\textwidth}
+\centering
+{\Large\textcolor{softgold}{دانشگاه صنعتی امیرکبیر}}\\[0.15cm]
+{\large\textcolor{white}{دانشکده مهندسی کامپیوتر}}
+\end{minipage}
+\begin{minipage}{0.18\textwidth}
+\centering\safelogo{aut.png}{2.15cm}
+\end{minipage}\\[0.8cm]
+
+{\Huge\bfseries\textcolor{gold}{فاز دوم پروژه پایانی}}\\[0.4cm]
+{\LARGE\textcolor{white}{استقرار Kubernetes و خودکارسازی GitLab CI/CD}}\\[0.25cm]
+{\Large\textcolor{softgold}{تحلیل لاگ جام جهانی}}\\[0.65cm]
+{\textcolor{white}{\rule{0.72\textwidth}{0.8pt}}}\\[0.75cm]
+
+\begin{tcolorbox}[
+  enhanced,width=0.80\textwidth,colback=white,colframe=gold,
+  boxrule=1pt,arc=5pt,right=18pt,left=18pt,top=13pt,bottom=13pt
+]
+\centering
+{\Large\bfseries\textcolor{midnight}{مبانی رایانش ابری}}\\[0.3cm]
+{\large\textcolor{teal}{نیمسال دوم ۱۴۰۴--۱۴۰۵}}\\[0.3cm]
+{\large\bfseries\textcolor{midnight}{گزارش طراحی، پیاده‌سازی، خطایابی و آزمون}}
+\end{tcolorbox}
+
+\vspace{0.5cm}
+\begin{tcolorbox}[
+  enhanced,width=0.80\textwidth,colback=softgray,colframe=teal,
+  boxrule=0.9pt,arc=5pt,right=18pt,left=18pt,top=13pt,bottom=13pt
+]
+\centering
+{\large\bfseries\textcolor{midnight}{مشخصات گروه}}\\[0.25cm]
+{\large\bfseries سید حسام الدین حسینیان}\quad{\large ۴۰۲۳۱۹۰۱}\\[0.18cm]
+{\large\bfseries فروزان قویدل}\quad{\large ۴۰۲۳۱۰۶۴}\\[0.35cm]
+{\large استاد درس: دکتر جوادی}\\
+{\large تدریسیاران: مهرداد شیخ‌عباسی و محمدهادی ستاک}
+\end{tcolorbox}
+
+\vfill
+{\large\textcolor{softgold}{تابستان ۱۴۰۵}}
+\end{center}
+\end{titlepage}
+}
+
+\begin{document}
+\makecover
+\setcounter{page}{1}
+
+\begin{tocbox}
+\small
+\setcounter{tocdepth}{2}
+\tableofcontents
+\end{tocbox}
+
+\clearpage
+\section{خلاصه اجرایی}
+
+در فاز دوم، مسیر دستی فاز اول به یک سامانه واقعی روی Kubernetes منتقل شد. یک کلاستر
+\eng{kind} با namespace ثابت \codefile{cc-project} ساخته شد. GitLab CE، GitLab
+Runner، Registry خصوصی، سه backend، Nginx، HDFS، Jobهای ترافیک، MapReduce،
+اعتبارسنجی و تولید گزارش همگی داخل همان کلاستر اجرا شدند. کد پروژه در GitLab
+محلی push شد و Runner با \eng{Kubernetes executor} همه مراحل را داخل podهای
+موقت اجرا کرد.
+
+در اجرای نهایی، ۱۰۰٬۰۰۰ درخواست فقط از Nginx عبور کرد. فایل access log شامل
+دقیقاً ۱۰۰٬۰۰۰ شناسه یکتا بود و مجموع سه فایل backend نیز دقیقاً ۱۰۰٬۰۰۰ رکورد
+شد. پنج Job واقعی Hadoop Streaming روی HDFS اجرا شدند؛ ۱۳ خروجی الزامی با
+validator کم‌حافظه تأیید شد؛ داشبورد HTML ساخته و با NodePort روی پورت ۹۰۰۰
+منتشر شد.
+
+\begin{resultbox}{وضعیت نهایی بخش اجباری}
+کلاستر، GitLab، Runner، Registry، پایپ‌لاین هشت‌مرحله‌ای، ترافیک ۱۰۰هزار
+درخواست، پنج Job Hadoop، اعتبارسنجی خروجی و داشبورد قابل مشاهده همگی به‌صورت
+واقعی اجرا شده‌اند. اجرای نهایی پایپ‌لاین با شناسه ۱۶ و commit
+\codefile{f507f6c3} در ۳۷۲ ثانیه با وضعیت موفق تمام شد. هیچ Secret یا token
+در مخزن و بسته تحویلی قرار نگرفته است.
+\end{resultbox}
+
+\section{خواندن دستورکار و تبدیل آن به برنامه اجرا}
+
+فایل ۲۵ صفحه‌ای فاز دوم ابتدا کامل خوانده شد. سپس الزام‌ها به ترتیب وابستگی
+مرتب شدند. نتیجه این بود که اجرای درست باید از زیرساخت شروع شود، بعد GitLab و
+Runner بالا بیایند، سپس build و deploy انجام شود و در پایان ترافیک، تحلیل و
+انتشار اجرا شوند. ترتیب کاری استفاده‌شده چنین بود:
+
+\begin{enumerate}
+  \item بررسی کد فاز اول، template گزارش و منابع میزبان؛
+  \item ساخت کپی مستقل فاز دوم و نگه‌داشتن خروجی فاز اول بدون تغییر؛
+  \item طراحی namespace، PVC، Serviceها، Deploymentها و Jobها؛
+  \item ساخت کلاستر \eng{kind} و کنترل سلامت node؛
+  \item راه‌اندازی Registry، GitLab CE و Runner داخل Kubernetes؛
+  \item ایجاد پروژه GitLab، ثبت Runner و push مخزن؛
+  \item طراحی پایپ‌لاین test تا publish و build بدون Docker daemon با Kaniko؛
+  \item اجرای ترافیک واقعی و رفع اشکال مسیرهای PVC؛
+  \item اجرای Hadoop Streaming، اعتبارسنجی ۱۳ خروجی و ساخت dashboard؛
+  \item ثبت همه خطاهای واقعی، اندازه‌گیری منابع و آماده‌سازی بسته تحویل.
+\end{enumerate}
+
+\subsection{وضعیت منابع در شروع}
+
+میزبان ۷٫۴ گیگابایت RAM و ۱۶ پردازنده منطقی داشت. مقدار حافظه available در
+بخش‌های مختلف معمولاً بین ۱٫۰ تا ۱٫۸ گیگابایت بود. به همین علت از ابتدا سه
+تصمیم گرفته شد: Runner فقط یک Job هم‌زمان اجرا کند، HDFS تنها در مرحله MapReduce
+روشن باشد و buildهای سنگین به‌صورت ترتیبی انجام شوند.
+
+\begin{table}[H]
+\centering
+\caption{بودجه منابع بخش‌های پرمصرف}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}X p{3.0cm} p{3.0cm}}
+\toprule
+بخش & request & limit \\
+\midrule
+GitLab CE & ۵۰۰m / ۱۵۰۰MiB & ۲ CPU / ۳۲۰۰MiB \\
+GitLab Runner & ۵۰m / ۶۴MiB & ۵۰۰m / ۳۸۴MiB \\
+MapReduce & ۲۵۰m / ۳۸۴MiB & ۱ CPU / ۱۲۰۰MiB \\
+NameNode & ۱۰۰m / ۲۵۶MiB & ۱ CPU / ۸۰۰MiB \\
+DataNode & ۱۰۰m / ۲۲۴MiB & ۶۰۰m / ۶۰۰MiB \\
+Spark اختیاری & ۲۵۰m / ۵۱۲MiB & ۲ CPU / ۱۶۰۰MiB \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+requestها برای زمان‌بندی محافظه‌کارانه کوچک نگه داشته شدند، اما limitها جلوی
+مصرف کنترل‌نشده را می‌گیرند. HDFS و Spark هم‌زمان اجرا نمی‌شوند. هنگام Spark
+نیز GitLab و مسیر سرویس‌دهی موقتاً scale-down می‌شوند؛ بنابراین جمع limitهای
+جدول به معنی رزرو هم‌زمان حافظه نیست.
+
+\clearpage
+\section{معماری نهایی سامانه}
+
+\begin{figure}[H]
+\centering
+\IfFileExists{architecture.png}
+  {\includegraphics[width=\textwidth,height=0.82\textheight,keepaspectratio]{architecture.png}}
+  {\includegraphics[width=\textwidth]{../code_phase2/code/docs/architecture.png}}
+\caption{گراف معماری نهایی فاز دوم}
+\end{figure}
+
+مسیر اصلی از چپ به راست در شکل دیده می‌شود. Developer کد را به GitLab داخلی
+می‌فرستد. GitLab یک pipeline هشت‌مرحله‌ای ایجاد می‌کند و Runner با
+\eng{Kubernetes executor} برای هر Job یک pod موقت می‌سازد. Kaniko imageها را
+بدون دسترسی به Docker daemon در Registry خصوصی می‌گذارد. Deploymentها image
+همان commit را pull می‌کنند. Job ترافیک فقط با Service داخلی Nginx صحبت می‌کند.
+Nginx و backendها JSON log را در PVC مشترک می‌نویسند. در مرحله تحلیل،
+NameNode و DataNode از صفر به یک scale می‌شوند، Job Hadoop خروجی را روی همان PVC
+قرار می‌دهد و پس از پایان دوباره به صفر scale می‌شوند. validator و dashboard
+آخرین مصرف‌کنندگان داده هستند.
+
+\begin{table}[H]
+\centering
+\caption{اجزای اصلی معماری}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{3.2cm}X p{3.2cm}}
+\toprule
+جزء & نقش & نوع Kubernetes \\
+\midrule
+GitLab CE & نگهداری مخزن و مدیریت CI/CD & Deployment + Service + PVC \\
+GitLab Runner & اجرای Jobها با Kubernetes executor & Deployment + RBAC + Secret \\
+Registry خصوصی & نگهداری imageهای هر commit و cache کانیکو & Deployment + ClusterIP + PVC \\
+سه backend & پاسخ‌گویی و نوشتن service log & سه Deployment و سه Service \\
+Nginx Gateway & تنها ورودی ترافیک و تولید access log & Deployment + NodePort \\
+project-data & لاگ‌ها، خروجی Hadoop و dashboard & PVC دو گیگابایتی \\
+HDFS & ذخیره ورودی و خروجی Streaming & دو StatefulSet و دو Service \\
+MapReduce & اجرای پنج مرحله تحلیل & Job \\
+Report Web & انتشار HTML و JSON & Deployment + NodePort \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{پیاده‌سازی زیرساخت Kubernetes}
+
+\subsection{ساخت کلاستر و namespace}
+
+فایل \codefile{k8s/kind-config.yaml} پورت‌های NodePort لازم را از node به میزبان
+منتقل می‌کند. namespace پروژه \codefile{cc-project} است. اسکریپت
+\codefile{scripts/phase2/create\_cluster.sh} idempotent نوشته شد: اگر کلاستر
+وجود داشته باشد آن را پاک نمی‌کند، context درست را انتخاب می‌کند، تا Ready شدن
+node منتظر می‌ماند و سپس storage را apply می‌کند.
+
+containerd در namespace شبکه node اجرا می‌شود و DNS داخلی podها را ندارد.
+برای اینکه نام \codefile{registry.cc-project.svc} هنگام image pull نیز resolve
+شود، اسکریپت ساخت کلاستر نگاشت ثابت \codefile{10.96.0.50} را داخل hosts نود
+ثبت می‌کند. این مورد پس از مشاهده توقف image pull به اسکریپت اضافه شد.
+
+\subsection{Storage و تفکیک داده}
+
+چهار PVC مستقل تعریف شد:
+
+\begin{itemize}
+  \item \codefile{project-data} با ظرفیت ۲Gi برای لاگ و خروجی تحلیل؛
+  \item \codefile{registry-data} با ظرفیت ۳Gi برای imageها و cache؛
+  \item \codefile{gitlab-data} با ظرفیت ۸Gi برای repository و پایگاه داده؛
+  \item \codefile{gitlab-config} با ظرفیت ۱Gi برای کلیدها و تنظیمات GitLab.
+\end{itemize}
+
+جداکردن \codefile{/etc/gitlab} از data یک اصلاح مهم بود. در نسخه اولیه config
+روی \eng{emptyDir} قرار داشت. پس از جایگزینی pod، کلیدهای encryption دوباره
+ساخته شدند و GitLab هنگام خواندن tokenهای قبلی خطای
+\eng{OpenSSL::Cipher} داد. داده GitLab یک بار در محیط آزمایش بازسازی و پس از
+آن config روی PVC پایدار قرار گرفت.
+
+\subsection{ConfigMap، Secret و RBAC}
+
+پیکربندی Nginx و Report Web در ConfigMap قرار گرفت. گذرواژه اولیه GitLab،
+authentication token مربوط به Runner و API token کوتاه‌عمر در Secret یا فایل
+محلی با mode برابر ۰۶۰۰ نگهداری شدند و مسیر
+\codefile{.phase2-secrets} در gitignore قرار گرفت.
+
+ServiceAccount مربوط به Runner فقط مجوزهای لازم برای pod، Job، Deployment،
+StatefulSet، Service، ConfigMap و PVC در namespace پروژه را دارد. برای فرمان
+\codefile{get namespace/cc-project} یک ClusterRole محدود با
+\eng{resourceNames} تعریف شد. آزمون RBAC نشان داد get روی همان namespace مجاز
+و list همه namespaceها غیرمجاز است.
+
+\section{انتقال سرویس‌ها و Nginx}
+
+\subsection{سه backend}
+
+سرویس‌های match، team و stadium از کد فاز اول استفاده می‌کنند، اما اکنون هر
+کدام Deployment و ClusterIP Service مستقل دارند. برای هر container request و
+limit مشخص شد. probeهای readiness و liveness روی \codefile{/health} هستند.
+
+فایل‌های لاگ باید در این مسیرهای مشترک نوشته شوند:
+
+\begin{latin}
+\begin{lstlisting}
+/project-data/data/service_logs/match_service.log
+/project-data/data/service_logs/team_service.log
+/project-data/data/service_logs/stadium_service.log
+\end{lstlisting}
+\end{latin}
+
+برنامه‌ها متغیر \codefile{SERVICE\_LOG\_PATH} را می‌خوانند. در یک اجرای واقعی
+مشخص شد manifest اشتباهاً متغیر \codefile{LOG\_PATH} می‌فرستاد؛ به همین دلیل
+حدود ۲۹MB لاگ داخل filesystem موقت سه container باقی مانده بود. نام متغیر و
+مسیر هر سه Deployment اصلاح شد و یک regression check به تست‌های CI اضافه شد.
+
+\subsection{Gateway و مسیر لاگ}
+
+Nginx تنها درگاه عمومی API است. routeهای \codefile{/api/matches}،
+\codefile{/api/teams} و \codefile{/api/stadiums} به Service داخلی متناظر
+proxy می‌شوند. headerهای request ID، کشور و scenario بدون تغییر به backend
+می‌رسند. health check از access log خارج شده است تا داده تحلیل فقط شامل
+درخواست‌های پروژه باشد.
+
+access log با فرمت JSON و buffer محدود در مسیر زیر ذخیره می‌شود:
+
+\begin{latin}
+\begin{lstlisting}
+/project-data/data/nginx/nginx_access.log
+\end{lstlisting}
+\end{latin}
+
+در اجرای اول فاز دو، Nginx فایل را در
+\codefile{/project-data/nginx/nginx\_access.log} می‌نوشت ولی Hadoop مسیر
+\codefile{data/nginx} را می‌خواند. همان اجرا پیش از MapReduce متوقف شد، فایل
+اشتباه پاک شد، ConfigMap و initContainer اصلاح شدند و ترافیک از ابتدا تکرار شد.
+
+\section{تولید ترافیک به شکل Kubernetes Job}
+
+مولد ترافیک یک Job با ۳۲ worker محدود است. مقصد آن فقط
+\codefile{http://nginx-gateway:80} است و هیچ آدرس backend در container وجود
+ندارد. seed ثابت ۱۴۰۵ باعث می‌شود توزیع درخواست‌ها تکرارپذیر باشد. پنج scenario
+عادی، popular، invalid، server error و slow تولید می‌شوند.
+
+پیش از هر اجرا، stage ترافیک این ترتیب را انجام می‌دهد:
+
+\begin{enumerate}
+  \item replicaهای Nginx و سه backend را صفر می‌کند؛
+  \item تا حذف pod قدیمی Nginx منتظر می‌ماند تا buffer قبلی باز نماند؛
+  \item Job پاک‌سازی PVC را اجرا می‌کند و فایل‌ها را صفر می‌کند؛
+  \item Deploymentها را دوباره یک می‌کند و rollout هر چهار مورد را کنترل می‌کند؛
+  \item Job ترافیک را با image tag همان commit می‌سازد؛
+  \item تا condition برابر Complete منتظر می‌ماند و log خلاصه را چاپ می‌کند.
+\end{enumerate}
+
+\begin{resultbox}{شمارش اجرای مبنا}
+فایل Nginx دقیقاً ۱۰۰٬۰۰۰ خط و ۱۰۰٬۰۰۰ request ID یکتا داشت. فایل‌های match،
+team و stadium به‌ترتیب ۲۸٬۱۶۲، ۴۹٬۶۱۹ و ۲۲٬۲۱۹ خط داشتند؛ جمع آن‌ها نیز
+دقیقاً ۱۰۰٬۰۰۰ است. حجم access log حدود ۲۸٫۷MiB و مجموع service logها حدود
+۲۷٫۴MiB بود.
+\end{resultbox}
+
+برای خطاهای گذرای شبکه، Job 1 رکوردها را با کلید ترکیبی source و request ID
+مرتب و duplicate احتمالی را حذف می‌کند. یک تست جداگانه دو نسخه از یک درخواست
+را به mapper/reducer می‌دهد و خروجی یک رکورد را کنترل می‌کند.
+
+\section{GitLab، Runner و Registry داخل کلاستر}
+
+\subsection{GitLab CE}
+
+GitLab CE نسخه \eng{17.11.7-ce.0} داخل Deployment اجرا شد. قابلیت‌های غیرضروری
+مانند monitoring داخلی برای کاهش مصرف خاموش شدند. readiness probe از curl
+داخلی GitLab روی \codefile{127.0.0.1/-/readiness} استفاده می‌کند. دسترسی میزبان
+از \codefile{http://localhost:8929} فراهم است، ولی Runner و سرویس‌های داخل
+کلاستر از DNS داخلی \codefile{gitlab.cc-project.svc} استفاده می‌کنند.
+
+اولین pull image GitLab حدود ۶ دقیقه و ۸ ثانیه طول کشید و image فشرده حدود
+۱٫۷۸GB بود. هنگام migration، مصرف node حدود ۲٫۰GiB و CPU به‌طور لحظه‌ای نزدیک
+۱۰۰ درصد یک هسته شد. پس از پایدار شدن، GitLab بخش اصلی حافظه را به Puma،
+Sidekiq و PostgreSQL اختصاص داد.
+
+\subsection{GitLab Runner}
+
+Runner نسخه \eng{17.11.1} در همان namespace ثبت شد. executor برابر
+\eng{kubernetes} و concurrent برابر ۱ است. برای هر Job سه container
+معمول Runner یعنی build، helper و init-permissions در یک pod موقت ایجاد می‌شود.
+helper image رسمی از Docker Hub استفاده شد، چون CDN مربوط به registry.gitlab
+در شبکه آزمایش پاسخ ۴۰۳ می‌داد.
+
+\subsection{Registry و Kaniko}
+
+Registry نسخه ۲٫۸٫۳ با ClusterIP ثابت \codefile{10.96.0.50:5000} و PVC سه
+گیگابایتی اجرا شد. imageهای هر commit در مسیر
+\codefile{cc-phase2/<service>:<short-sha>} ذخیره می‌شوند. Kaniko جایگزین
+\eng{Docker-in-Docker} شد تا Runner به socket میزبان دسترسی نداشته باشد.
+
+image اصلی Kaniko روی gcr در این شبکه ۴۰۳ می‌داد؛ mirror
+\codefile{chinayin/kaniko-project:v1.23.2-debug} استفاده شد. Registry داخلی HTTP
+است، بنابراین flagهای \codefile{--insecure} و
+\codefile{--insecure-registry} به executor داده شدند.
+
+\section{طراحی GitLab CI/CD}
+
+فایل \codefile{.gitlab-ci.yml} شامل هشت stage است:
+
+\begin{center}
+\eng{test $\rightarrow$ build $\rightarrow$ deploy $\rightarrow$ traffic
+$\rightarrow$ mapreduce $\rightarrow$ validate $\rightarrow$ report
+$\rightarrow$ publish}
+\end{center}
+
+\subsection{Stage تست}
+
+در stage اول این موارد اجرا می‌شوند:
+
+\begin{itemize}
+  \item compile نحوی همه فایل‌های Python؛
+  \item \codefile{bash -n} برای همه اسکریپت‌های shell؛
+  \item اجرای محلی همان پنج mapper/reducer روی fixture کوچک؛
+  \item تست duplicate request در Job 1؛
+  \item کنترل نام متغیر و مسیر PVC سه backend؛
+  \item اعتبارسنجی ۱۳ خروجی موجود.
+\end{itemize}
+
+\subsection{Stage build}
+
+برای جلوگیری از تداخل filesystem Kaniko، هر image یک Job مستقل دارد. به دلیل
+concurrent برابر یک، Jobها به ترتیب اجرا می‌شوند. team، stadium، traffic و
+phase2-tools از image داخلی match همان commit به عنوان base استفاده می‌کنند تا
+وابستگی به CDN خارجی کم شود.
+
+image Hadoop در ابتدا از یک base قدیمی دو گیگابایتی ساخته می‌شد و snapshot آن
+I/O زیادی ایجاد کرد. نسخه نهایی از \eng{eclipse-temurin:11-jre-jammy}،
+Python و Hadoop 3.4.3 ساخته شد. دانلود Hadoop با aria2 و هشت connection انجام
+شد؛ فایل ۴۹۱MB در حدود ۴ دقیقه و ۱۲ ثانیه دریافت شد. برای build این image،
+memory limit Runner برابر ۲۵۰۰Mi و compressed caching غیرفعال شد.
+
+\subsection{Stageهای deploy تا publish}
+
+deploy manifestها را apply می‌کند و tag \codefile{dev} را با SHA commit عوض
+می‌کند. traffic داده قبلی را پاک و ۱۰۰هزار درخواست تولید می‌کند. mapreduce
+HDFS را scale-up و بعد از پایان scale-down می‌کند. validate همه schemaها و
+عدد ۱۰۰٬۰۰۰ را کنترل می‌کند. report داشبورد را با کاربر non-root می‌سازد و
+artifactهای HTML، JSON و CSV را به GitLab می‌دهد. publish Deployment وب را
+restart و دریافت \codefile{summary.json} از Service داخلی را آزمایش می‌کند.
+
+\subsection{اجرای نهایی پایپ‌لاین}
+
+پس از اعمال آخرین اصلاح health check، commit
+\codefile{f507f6c3} push شد. GitLab برای آن
+پایپ‌لاین شماره ۱۶ را ساخت. صف اولیه ۱۵ ثانیه و زمان اجرای ثبت‌شده ۳۷۲ ثانیه
+بود. زمان پایان در GitLab برابر ۲۵ ژوئیه ۲۰۲۶، ساعت ۰۱:۱۸ به وقت تهران ثبت شد.
+
+\begin{table}[H]
+\centering
+\caption{نتیجه Jobهای پایپ‌لاین نهایی شماره ۱۶}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}X p{3.0cm} p{2.4cm}}
+\toprule
+Job یا گروه Jobها & وضعیت & مدت تقریبی \\
+\midrule
+\eng{test-code} & موفق & ۶ ثانیه \\
+\eng{build-match-service} & موفق & ۱۷ ثانیه \\
+\eng{build-team / stadium / traffic / tools} & هر چهار موفق & ۶ تا ۸ ثانیه برای هرکدام \\
+\eng{build-hadoop-streaming} & موفق & ۲۸ ثانیه \\
+\eng{deploy-kubernetes} & موفق & ۱۱ ثانیه \\
+\eng{generate-traffic} & موفق & ۱۱۷ ثانیه \\
+\eng{run-mapreduce} & موفق & ۱۳۸ ثانیه \\
+\eng{validate-output} & موفق & ۹ ثانیه \\
+\eng{generate-report} & موفق & ۹ ثانیه \\
+\eng{publish-report} & موفق & ۹ ثانیه \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Hadoop Streaming روی Kubernetes}
+
+\subsection{راه‌اندازی HDFS با مصرف کنترل‌شده}
+
+NameNode و DataNode به‌صورت StatefulSet تعریف شدند، اما replica پیش‌فرض آن‌ها
+صفر است. تنها Job \codefile{run-mapreduce} آن‌ها را یک می‌کند. imageهای HDFS
+روی میزبان موجود بودند؛ به جای دانلود دوباره دو image حدود ۲٫۰۶GB، با یک pipe
+مستقیم \codefile{docker save | ctr images import} وارد containerd شدند. import
+هر دو image در مجموع ۱۶٫۴ ثانیه طول کشید و فایل موقت چندگیگابایتی ساخته نشد.
+
+پس از restart، port NameNode ممکن است Ready باشد ولی HDFS هنوز در Safe Mode
+باشد. در یکی از اجراها upload با پیام
+\eng{Cannot create file; Name node is in safe mode} متوقف شد. اسکریپت نهایی
+تا ۱۸۰ ثانیه، هر دو ثانیه وضعیت \codefile{hdfs dfsadmin -safemode get} را
+می‌خواند و فقط پس از OFF شدن نوشتن را شروع می‌کند.
+
+\subsection{Job 1: Parsing and Cleaning}
+
+چهار فایل خام به HDFS فرستاده می‌شوند. mapper JSON را parse می‌کند، فیلدهای
+اجباری و بازه status code و زمان را می‌سنجد و رکورد را به nginx، service یا
+invalid tag می‌دهد. reducer با کلید hash شده request ID، retryهای تکراری را
+حذف می‌کند. خروجی‌های این مرحله دو CSV تمیز و فایل invalid هستند.
+
+\subsection{Job 2: General Nginx Aggregation}
+
+برای service، endpoint و scenario تعداد کل، موفق، خطای ۴xx، خطای ۵xx، نرخ خطا
+و میانگین response time محاسبه می‌شود. همین خروجی منبع summary نهایی است.
+
+\subsection{Job 3: Country--Entity Count}
+
+service log تمیز به سه دسته team، match day و stadium/city نگاشت می‌شود و تعداد
+درخواست هر موجودیت برای هر کشور جمع می‌شود.
+
+\subsection{Job 4: Popular Entity by Country}
+
+خروجی Job 3 دوباره پردازش می‌شود. برای هر کشور محبوب‌ترین تیم، روز بازی و
+ورزشگاه انتخاب می‌شود. در تساوی، مرتب‌سازی نام نتیجه را deterministic می‌کند.
+
+\subsection{Job 5: Final Summary}
+
+Job آخر خروجی‌های Jobهای ۲ تا ۴ را با metadata پیش‌بینی ترکیب می‌کند و
+\codefile{outputs/final/summary.json} را می‌سازد. پس از آن script validator
+ساختار همه خروجی‌ها را کنترل می‌کند.
+
+\begin{resultbox}{اجرای واقعی پنج Job}
+در پایپ‌لاین نهایی، Job MapReduce از شروع scale-up تا پایان تحلیل ۱۳۸ ثانیه
+طول کشید. pod پردازش هیچ restart یا OOM نداشت. هر پنج marker اجرایی، اعتبارسنجی
+۱۳ فایل و پیام \eng{MapReduce pipeline completed successfully} در trace ثبت شد.
+\end{resultbox}
+
+\section{خروجی و تحلیل نتایج}
+
+\begin{table}[H]
+\centering
+\caption{آمار سرویس‌ها در اجرای ۱۰۰هزار درخواست}
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+\eng{service} & کل & موفق & ۴xx & ۵xx & میانگین ms \\
+\midrule
+\eng{match-service} & ۲۸٬۱۶۲ & ۲۷٬۲۹۲ & ۵۶۳ & ۳۰۷ & ۳۲٫۳۱۱ \\
+\eng{stadium-service} & ۲۲٬۲۱۹ & ۲۱٬۵۶۵ & ۴۵۱ & ۲۰۳ & ۳۲٫۸۳۵ \\
+\eng{team-service} & ۴۹٬۶۱۹ & ۴۸٬۱۵۸ & ۹۷۰ & ۴۹۱ & ۲۶٫۰۵۳ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+team-service با ۴۹٬۶۱۹ درخواست پرتقاضاترین سرویس بود. نرخ خطای match-service
+برابر ۳٫۰۸۹۳ درصد و از دو سرویس دیگر کمی بیشتر بود. کندترین endpoint طبق
+summary، \codefile{/api/stadiums} شد.
+
+\begin{table}[H]
+\centering
+\caption{آمار scenarioها}
+\small
+\begin{tabular}{lrrrr}
+\toprule
+\eng{scenario} & تعداد & موفق & نرخ خطا & میانگین ms \\
+\midrule
+\eng{normal} & ۹۱٬۴۶۶ & ۹۱٬۴۶۶ & ۰\% & ۲۵٫۶۸۴ \\
+\eng{popular} & ۵٬۰۷۲ & ۵٬۰۷۲ & ۰\% & ۲۵٫۳۰۷ \\
+\eng{invalid} & ۱٬۹۸۴ & ۰ & ۱۰۰\% & ۲۵٫۵۰۷ \\
+\eng{server\_error} & ۱٬۰۰۱ & ۰ & ۱۰۰\% & ۲۵٫۶۵۲ \\
+\eng{slow} & ۴۷۷ & ۴۷۷ & ۰\% & ۷۹۳٫۳۰۰ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+سناریوی slow فقط ۰٫۴۷۷ درصد ترافیک بود، ولی میانگین زمان آن حدود ۷۹۳ms شد؛
+پس میانگین کلی endpointها را بدون ایجاد load کنترل‌نشده افزایش داد.
+
+summary نهایی این نتایج را ثبت کرد:
+
+\begin{itemize}
+  \item محبوب‌ترین تیم کلی: آرژانتین؛
+  \item پرتقاضاترین روز بازی: ۲۵ ژوئن ۲۰۲۶؛
+  \item پرتقاضاترین ورزشگاه: New York New Jersey Stadium؛
+  \item قهرمان پیش‌بینی‌شده: آرژانتین؛
+  \item فینال پیش‌بینی‌شده: فرانسه مقابل آرژانتین؛
+  \item محل فینال پیش‌بینی‌شده: New York New Jersey Stadium.
+\end{itemize}
+
+\section{Dashboard و انتشار نتیجه}
+
+اسکریپت \codefile{report-web/generate\_dashboard.py} summary و service stats را
+می‌خواند و HTML مستقل تولید می‌کند. image ابزار با UID برابر ۱۰۰۰۱ اجرا می‌شود.
+در اولین اجرای report، پوشه \codefile{outputs/final} توسط Hadoop با مالک root
+و mode برابر ۰۷۵۵ ساخته شده بود و نوشتن index با PermissionError متوقف شد.
+
+نسخه نهایی یک initContainer بسیار کوچک دارد که فقط group همان پوشه را ۲۰۰۰ و
+mode را ۰۷۷۵ می‌کند. container اصلی همچنان non-root باقی می‌ماند. smoke test
+موفق پیام زیر را ثبت کرد:
+
+\begin{latin}
+\begin{lstlisting}
+Dashboard written to /project-data/outputs/final/index.html
+<title>World Cup Log Analytics
+\end{lstlisting}
+\end{latin}
+
+Report Web فایل‌های HTML و JSON را read-only mount می‌کند. دسترسی میزبان از
+\codefile{http://localhost:9000/index.html} و دسترسی داخلی از Service
+\codefile{report-web} است.
+
+\section{کنترل RAM، CPU و I/O}
+
+\begin{table}[H]
+\centering
+\caption{اقدام‌های انجام‌شده برای کنترل منابع}
+\small
+\begin{tabularx}{\textwidth}{>{\bfseries}p{4.1cm}X}
+\toprule
+بخش & اقدام \\
+\midrule
+Runner & concurrent برابر ۱؛ buildهای مستقل و ترتیبی \\
+GitLab & خاموش‌کردن monitoring غیرضروری و تعیین request/limit \\
+Kaniko & cache Registry، base داخلی و compressed caching خاموش فقط برای Hadoop \\
+Traffic & ۳۲ worker محدود و سقف ۲ CPU و ۱۹۲MiB \\
+HDFS & replica صفر در حالت عادی و scale موقت در MapReduce \\
+Validator & خواندن CSV به‌صورت streaming به جای list کامل \\
+Image انتقالی & pipe مستقیم به containerd و عدم ساخت archive موقت \\
+Spark & توقف GitLab و backendها هنگام اجرای بخش اختیاری \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+کمترین حافظه available مشاهده‌شده در اجرای Hadoop حدود ۱٫۰ تا ۱٫۲GiB بود.
+هیچ pod پردازش restart نشد. نسخه اول validator با limit برابر ۱۲۸MiB
+OOMKilled شد، چون دو CSV بزرگ را کامل در list می‌ریخت. نسخه streaming روی
+خروجی ۱۰۰هزار رکورد با tracemalloc حدود ۰٫۹MiB peak تخصیص Python داشت و همان
+۱۳ بررسی schema را حفظ کرد.
+
+\section{دفترچه خطاها و اصلاح مرحله‌به‌مرحله}
+
+خطاهای زیر در اجرای واقعی دیده شدند. این موارد حذف یا پنهان نشده‌اند، چون بخش
+مهم فاز دوم خطایابی محیط واقعی Kubernetes و CI/CD است.
+
+\begin{enumerate}
+  \item \textbf{Load مستقیم kind:} image چندسکویی در Docker 29 و containerd 2
+  digest ناقص داد. برای imageهای معمول pull مستقیم و برای imageهای HDFS import
+  مستقیم با ctr استفاده شد.
+
+  \item \textbf{Readiness GitLab:} آدرس loopback و مسیر curl اولیه درست نبود.
+  probe به curl داخلی GitLab و endpoint رسمی readiness تغییر کرد.
+
+  \item \textbf{Runner helper:} دانلود از CDN مربوط به registry.gitlab پاسخ
+  ۴۰۳ داشت. helper رسمی همان نسخه از Docker Hub انتخاب شد.
+
+  \item \textbf{کلیدهای GitLab:} config موقت باعث تغییر کلید encryption پس از
+  تعویض pod شد. PVC جداگانه gitlab-config اضافه شد.
+
+  \item \textbf{Image ابزار CI:} tag انتخابی bitnami/kubectl وجود نداشت.
+  image \codefile{alpine/k8s:1.32.3} جایگزین شد.
+
+  \item \textbf{Kaniko روی gcr:} دسترسی ۴۰۳ بود؛ mirror Docker Hub استفاده شد.
+
+  \item \textbf{Build اولیه Hadoop:} base قدیمی دو گیگابایتی I/O بسیار زیاد
+  ایجاد کرد و یک بار EOF و یک بار OOM رخ داد. base سبک Java 11 و Hadoop 3.4.3
+  ساخته شد و limit همان Job به ۲۵۰۰MiB رسید.
+
+  \item \textbf{دانلود Hadoop:} curl تک‌connection سرعت حدود ۰٫۳MB/s داشت.
+  aria2 با هشت connection میانگین حدود ۱٫۹MiB/s داد.
+
+  \item \textbf{RBAC namespace:} Runner مجوز get namespace نداشت. ClusterRole
+  فقط برای نام cc-project افزوده شد و list همچنان غیرمجاز ماند.
+
+  \item \textbf{تداخل buildها:} اجرای شش Kaniko پشت سر هم در یک pod باعث شد
+  بعضی imageها فایل‌های base را درست نداشته باشند. هر image به Job مستقل تبدیل
+  شد.
+
+  \item \textbf{دسترسی Registry HTTP:} pull داخلی ابتدا HTTPS فرض شد.
+  flag insecure و تنظیم mirror اضافه شد.
+
+  \item \textbf{DNS Registry در node:} containerd به DNS pod دسترسی نداشت.
+  IP ثابت Service در hosts node و اسکریپت ایجاد کلاستر ثبت شد.
+
+  \item \textbf{مسیر access log:} Nginx در شاخه‌ای متفاوت از ورودی Hadoop
+  می‌نوشت. MapReduce متوقف، مسیر اصلاح، فایل اشتباه حذف و ترافیک از نو تولید شد.
+
+  \item \textbf{چهار retry شبکه‌ای:} در یک اجرای آزمایشی ۱۰۰٬۰۰۴ خط خام و
+  چهار request ID تکراری دیده شد. dedup مبتنی بر request ID در Job 1 و تست
+  رگرسیون اضافه شد.
+
+  \item \textbf{متغیر لاگ backend:} LOG\_PATH توسط برنامه خوانده نمی‌شد.
+  SERVICE\_LOG\_PATH و مسیر کامل PVC برای هر سه سرویس اصلاح شد.
+
+  \item \textbf{Validator OOM:} list کردن CSVهای بزرگ بیش از ۱۲۸MiB مصرف کرد.
+  validator سطر‌به‌سطر بازنویسی شد.
+
+  \item \textbf{HDFS Safe Mode:} readiness شبکه پیش از امکان نوشتن برقرار شد.
+  انتظار صریح حداکثر ۱۸۰ ثانیه برای Safe Mode OFF اضافه شد.
+
+  \item \textbf{ثبت IP جدید DataNode:} پس از ساخت دوباره pod، NameNode به‌علت
+  نبود reverse-DNS، IP جدید DataNode را رد کرد. hostname check مخصوص محیط
+  container غیرفعال شد؛ احراز هویت و شبکه namespace تغییری نکرد.
+
+  \item \textbf{Permission داشبورد:} Hadoop پوشه final را root:root ساخته بود.
+  initContainer فقط group و write permission همان پوشه را آماده کرد.
+
+  \item \textbf{اتصال هنگام rollout گزارش:} اولین wget به endpoint در حال حذف
+  گیر کرد، در حالی که درخواست بعدی پاسخ ۲۰۰ داشت. برای health check انتشار،
+  timeout پنج‌ثانیه‌ای و retry محدود به فرمان wget اضافه شد.
+
+  \item \textbf{خاموش‌شدن لپ‌تاپ میان اجرا:} اجرای شماره ۱۴ هنگام تولید ترافیک
+  با قطع برق میزبان نیمه‌کاره ماند. پس از روشن‌شدن دوباره، کلاستر kind،
+  PVCهای GitLab، Registry و داده پروژه بررسی شدند و سالم بودند. Job نیمه‌کاره
+  مبنای نتیجه قرار نگرفت؛ pipeline تازه از آخرین commit اجرا شد و اجرای شماره
+  ۱۶ از test تا publish کامل و موفق پایان یافت.
+\end{enumerate}
+
+\section{بخش امتیازی Spark روی Kubernetes}
+
+\begin{scorebox}{طراحی بخش اختیاری}
+کد Structured Streaming، manifest اجرای Spark و Job خروجی‌دادن batchها در
+پوشه‌های \codefile{spark/} و \codefile{k8s/spark/} قرار دارند. ورودی و خروجی
+هر دو از PVC مشترک استفاده می‌کنند و اجرای Spark مستقل از مسیر اجباری
+GitLab/Hadoop است.
+\end{scorebox}
+
+اسکریپت \codefile{run\_spark\_kubernetes.sh} برای کنترل منابع ابتدا GitLab،
+Runner، Nginx و backendها را scale-down می‌کند. ConfigMap برنامه Spark را
+می‌سازد، Job Spark را اجرا می‌کند، batchهای اتمیک را از لاگ‌های
+واقعی صادر می‌کند و پس از complete شدن هر دو Job، log نتیجه را نمایش می‌دهد.
+
+\begin{resultbox}{نتیجه اجرای واقعی Spark}
+image رسمی \eng{apache/spark:3.5.5} بدون فایل موقت و با pipe مستقیم وارد
+containerd شد. Job با \eng{local[2]}، حافظه driver برابر ۷۶۸MiB و limit کل
+۱۶۰۰MiB اجرا شد و در ۶۸ ثانیه، بدون restart، کامل شد. صادرکننده پنج batch
+دویست‌سطری Nginx و پنج batch دویست‌سطری service ساخت. Structured Streaming
+در پنجره ۱۰ثانیه‌ای ۴۹۴ درخواست team، ۲۸۰ درخواست match و ۲۲۶ درخواست stadium
+را در اولین batch دید و تیم محبوب را برای هشت کشور محاسبه کرد. برای نمونه،
+آرژانتین با ۱۱۳ مشاهده برای کشور آرژانتین و ژاپن با ۸۱ مشاهده برای کشور ژاپن
+در خروجی زنده ثبت شدند. پس از پایان، trap اسکریپت GitLab، Runner، Nginx و هر
+سه backend را بازیابی کرد و rollout همه آن‌ها موفق بود.
+\end{resultbox}
+
+\section{آزمون‌ها و معیار پذیرش}
+
+\begin{table}[H]
+\centering
+\caption{ماتریس آزمون فاز دوم}
+\small
+\begin{tabularx}{\textwidth}{X p{2.4cm} X}
+\toprule
+آزمون & نتیجه & شاهد \\
+\midrule
+سلامت node و namespace & موفق & node برابر Ready و namespace برابر cc-project \\
+GitLab داخل Kubernetes & موفق & Deployment Ready و صفحه ورود روی ۸۹۲۹ \\
+Runner Kubernetes executor & موفق & pod موقت برای هر Job و Runner online \\
+build با Kaniko & موفق & شش image با tag commit در Registry خصوصی \\
+deploy سرویس‌ها & موفق & rollout چهار Deployment اصلی \\
+ترافیک فقط از Nginx & موفق & مقصد Job فقط nginx-gateway و ۱۰۰هزار ID یکتا \\
+لاگ مشترک & موفق & ۱۰۰هزار Nginx و ۱۰۰هزار service log روی PVC \\
+پنج Job Hadoop & موفق & پنج marker و پیام completion \\
+اعتبارسنجی & موفق & ۱۳ فایل و total برابر ۱۰۰٬۰۰۰ \\
+Dashboard & موفق & HTML، JSON و NodePort 9000 \\
+محدودیت منابع & موفق & صفر restart در Hadoop و validator با حافظه ثابت \\
+Spark Structured Streaming & موفق & ده batch، پنجره زنده، زمان ۶۸ ثانیه و صفر restart \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{روش اجرای پروژه}
+
+\subsection{پیش‌نیاز}
+
+ابزارهای Docker، kind، kubectl، git، curl و openssl لازم هستند. کلاستر با این
+فرمان ساخته می‌شود:
+
+\begin{latin}
+\begin{lstlisting}[language=bash]
+bash scripts/phase2/create_cluster.sh
+bash scripts/phase2/load_core_images.sh
+\end{lstlisting}
+\end{latin}
+
+\subsection{راه‌اندازی GitLab و Runner}
+
+\begin{latin}
+\begin{lstlisting}[language=bash]
+bash scripts/phase2/deploy_gitlab.sh
+bash scripts/phase2/configure_gitlab.sh
+bash scripts/phase2/wait_for_pipeline.sh
+\end{lstlisting}
+\end{latin}
+
+اسکریپت configure token کوتاه‌عمر می‌سازد، پروژه را ایجاد می‌کند، Runner را
+ثبت می‌کند و مخزن را push می‌کند. token در خروجی چاپ یا commit نمی‌شود.
+
+\subsection{کنترل وضعیت و آدرس‌ها}
+
+\begin{latin}
+\begin{lstlisting}[language=bash]
+bash scripts/phase2/collect_status.sh
+kubectl -n cc-project get pods,svc,jobs,pvc
+\end{lstlisting}
+\end{latin}
+
+\begin{itemize}
+  \item GitLab: \codefile{http://localhost:8929}
+  \item Nginx API: \codefile{http://localhost:8080}
+  \item Dashboard: \codefile{http://localhost:9000/index.html}
+\end{itemize}
+
+\subsection{اجرای Spark اختیاری}
+
+\begin{latin}
+\begin{lstlisting}[language=bash]
+IMAGE_TAG=<successful-short-sha> \
+  bash scripts/phase2/run_spark_kubernetes.sh
+\end{lstlisting}
+\end{latin}
+
+\section{ساختار فایل‌های تحویلی}
+
+\begin{latin}
+\begin{lstlisting}
+code/
+  .gitlab-ci.yml
+  k8s/
+    base/        # namespace, PVC, Registry, backend, Nginx, HDFS, report
+    jobs/        # traffic, reset, MapReduce, validator, report
+    gitlab/      # GitLab CE
+    runner/      # RBAC and Runner
+    spark/       # optional Spark workload
+  match-service/
+  team-service/
+  stadium-service/
+  traffic-generator/
+  mapreduce/     # five mapper/reducer pairs
+  hadoop-k8s/
+  phase2-tools/
+  report-web/
+  scripts/phase2/
+  tests/
+  docs/architecture.{dot,svg,png}
+report/
+  report.tex
+  report.pdf
+  architecture.png
+\end{lstlisting}
+\end{latin}
+
+نام بسته نهایی مطابق دستورکار به‌صورت زیر است:
+
+\begin{center}
+\codefile{CC\_Project\_Phase2\_40231901\_40231064.zip}
+\end{center}
+
+\section{جمع‌بندی}
+
+در این فاز فقط manifest نوشته نشد؛ GitLab و Runner واقعی داخل همان کلاستر بالا
+آمدند، مخزن واقعی push شد و pipeline از build تا publish اجرا شد. مسیر داده
+از یک Job ترافیک ۱۰۰هزار درخواستی، Nginx و سه backend شروع شد، با HDFS و پنج
+Job Streaming ادامه پیدا کرد و به ۱۳ خروجی تأییدشده و dashboard قابل مشاهده
+رسید.
+
+خطاهای اصلی پروژه بیشتر از جنس اتصال اجزا بودند: DNS بین host namespace و
+cluster، کلیدهای پایدار GitLab، مسیر دقیق PVC، نام متغیر environment، Safe Mode
+HDFS، مصرف حافظه validator و permission کاربر non-root. هر مورد پس از مشاهده
+در اجرای واقعی به کد یا تست رگرسیون تبدیل شد. در نتیجه نسخه تحویلی صرفاً یک
+نمونه نمایشی نیست و مسیر نصب و اجرای آن از روی اسکریپت‌ها قابل تکرار است.
+
+\end{document}

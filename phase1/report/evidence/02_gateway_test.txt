@@ -1,0 +1,22 @@
+$ curl -H 'X-Request-ID: manual-001' \
+       -H 'X-Client-Country: Iran' \
+       -H 'X-Scenario: normal' \
+       'http://localhost:8080/api/teams?name=Argentina'
+HTTP/1.1 200 OK
+{"name":"Argentina","country_code":"ARG","confederation":"CONMEBOL"}
+
+$ curl ... '/api/matches?date=not-a-date'
+HTTP status: 400
+
+$ curl -H 'X-Scenario: server_error' ... '/api/stadiums?name=Dallas+Stadium'
+HTTP status: 500
+
+$ tail -n 1 data/nginx/nginx_access.log
+{"request_id":"manual-001","client_country":"Iran","scenario":"normal",
+ "path":"/api/teams?name=Argentina","service":"team-service",
+ "status_code":200,"request_time_sec":"0.019"}
+
+$ tail -n 1 data/service_logs/team_service.log
+{"request_id":"manual-001","client_country":"Iran","scenario":"normal",
+ "service":"team-service","entity_type":"team","entity_value":"Argentina",
+ "status_code":200,"processing_time_ms":17,"event_type":"team_lookup"}

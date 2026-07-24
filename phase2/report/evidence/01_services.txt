@@ -1,0 +1,17 @@
+$ docker compose ps
+NAME                     SERVICE           STATUS                    PORTS
+code-match-service-1     match-service     Up (healthy)              8000/tcp
+code-nginx-1             nginx             Up (healthy)              0.0.0.0:8080->80/tcp
+code-stadium-service-1   stadium-service   Up (healthy)              8000/tcp
+code-team-service-1      team-service      Up (healthy)              8000/tcp
+
+$ docker compose exec nginx nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+$ docker stats --no-stream
+NAME                     CPU %   MEM USAGE / LIMIT   PIDS
+code-nginx-1             0.00%   5.35MiB / 64MiB     2
+code-team-service-1      0.13%   32.60MiB / 160MiB   2
+code-match-service-1     0.08%   34.44MiB / 160MiB   2
+code-stadium-service-1   0.14%   33.02MiB / 160MiB   2

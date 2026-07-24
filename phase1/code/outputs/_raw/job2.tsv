@@ -1,0 +1,11 @@
+endpoint	/api/matches,28162,27292,563,307,3.0893,37.265
+endpoint	/api/stadiums,22219,21565,451,203,2.9434,36.564
+endpoint	/api/teams,49619,48158,970,491,2.9444,32.723
+scenario	invalid,1984,0,1984,0,100.0000,32.946
+scenario	normal,91466,91466,0,0,0.0000,31.149
+scenario	popular,5072,5072,0,0,0.0000,31.205
+scenario	server_error,1001,0,0,1001,100.0000,30.620
+scenario	slow,477,477,0,0,0.0000,801.226
+service	match-service,28162,27292,563,307,3.0893,37.265
+service	stadium-service,22219,21565,451,203,2.9434,36.564
+service	team-service,49619,48158,970,491,2.9444,32.723
