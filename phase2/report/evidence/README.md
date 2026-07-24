@@ -24,3 +24,16 @@ kubectl -n cc-project get deployments,statefulsets,services,jobs,pvc
 kubectl -n cc-project logs job/mapreduce-pipeline
 kubectl -n cc-project logs job/spark-streaming
 ```
+
+The PNG files next to the text captures are the versions embedded in the
+report. They use the same plain terminal style as the Phase 1 report and are
+rendered directly from the matching text files with `pango-view`. For example:
+
+```bash
+pango-view --no-display --pixels \
+  --font='DejaVu Sans Mono 18' \
+  --foreground='#d8dee9' --background='#0d1117' \
+  --margin=28 --spacing=2 \
+  --output=04_mapreduce_and_validation.png \
+  04_mapreduce_and_validation.txt
+```

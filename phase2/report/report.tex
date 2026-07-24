@@ -374,6 +374,13 @@ StatefulSet، Service، ConfigMap و PVC در namespace پروژه را دارد
 \eng{resourceNames} تعریف شد. آزمون RBAC نشان داد get روی همان namespace مجاز
 و list همه namespaceها غیرمجاز است.
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.68\textheight,keepaspectratio]
+  {evidence/01_kubernetes_status.png}
+\caption{وضعیت واقعی workloadها، Serviceها و PVCهای Kubernetes پس از اجرای نهایی}
+\end{figure}
+
 \section{انتقال سرویس‌ها و Nginx}
 
 \subsection{سه backend}
@@ -442,6 +449,13 @@ team و stadium به‌ترتیب ۲۸٬۱۶۲، ۴۹٬۶۱۹ و ۲۲٬۲۱۹ خ
 دقیقاً ۱۰۰٬۰۰۰ است. حجم access log حدود ۲۸٫۷MiB و مجموع service logها حدود
 ۲۷٫۴MiB بود.
 \end{resultbox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth,height=0.68\textheight,keepaspectratio]
+  {evidence/03_traffic_and_outputs.png}
+\caption{خروجی اجرای ۱۰۰هزار درخواست و شمارش نهایی لاگ‌ها، مشابه قالب شواهد فاز اول}
+\end{figure}
 
 برای خطاهای گذرای شبکه، Job 1 رکوردها را با کلید ترکیبی source و request ID
 مرتب و duplicate احتمالی را حذف می‌کند. یک تست جداگانه دو نسخه از یک درخواست
@@ -556,6 +570,13 @@ Job یا گروه Jobها & وضعیت & مدت تقریبی \\
 \end{tabularx}
 \end{table}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth,height=0.68\textheight,keepaspectratio]
+  {evidence/02_gitlab_pipeline_16.png}
+\caption{خروجی API پایپ‌لاین شماره ۱۶ و موفقیت تمام Jobها}
+\end{figure}
+
 \section{Hadoop Streaming روی Kubernetes}
 
 \subsection{راه‌اندازی HDFS با مصرف کنترل‌شده}
@@ -605,6 +626,13 @@ Job آخر خروجی‌های Jobهای ۲ تا ۴ را با metadata پیش‌
 طول کشید. pod پردازش هیچ restart یا OOM نداشت. هر پنج marker اجرایی، اعتبارسنجی
 ۱۳ فایل و پیام \eng{MapReduce pipeline completed successfully} در trace ثبت شد.
 \end{resultbox}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.92\textwidth,height=0.68\textheight,keepaspectratio]
+  {evidence/04_mapreduce_and_validation.png}
+\caption{اجرای مرحله‌به‌مرحله پنج Job تحلیلی و اعتبارسنجی خروجی‌ها}
+\end{figure}
 
 \section{خروجی و تحلیل نتایج}
 
@@ -679,6 +707,13 @@ Dashboard written to /project-data/outputs/final/index.html
 Report Web فایل‌های HTML و JSON را read-only mount می‌کند. دسترسی میزبان از
 \codefile{http://localhost:9000/index.html} و دسترسی داخلی از Service
 \codefile{report-web} است.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth,height=0.68\textheight,keepaspectratio]
+  {evidence/05_dashboard.png}
+\caption{تولید Dashboard، پاسخ HTTP 200 و موفقیت مرحله publish}
+\end{figure}
 
 \section{کنترل RAM، CPU و I/O}
 
@@ -819,6 +854,13 @@ containerd شد. Job با \eng{local[2]}، حافظه driver برابر ۷۶۸Mi
 سه backend را بازیابی کرد و rollout همه آن‌ها موفق بود.
 \end{resultbox}
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.94\textwidth,height=0.68\textheight,keepaspectratio]
+  {evidence/06_spark_kubernetes.png}
+\caption{خروجی زنده Spark روی Kubernetes، وضعیت Jobها و بازیابی سرویس‌ها}
+\end{figure}
+
 \section{آزمون‌ها و معیار پذیرش}
 
 \begin{table}[H]
@@ -851,7 +893,10 @@ GitLab این پروژه داخل کلاستر محلی اجرا شده است �
 آدرس \codefile{localhost:8929} لپ‌تاپ را باز کند. به همین دلیل فقط به تصویر
 صفحه GitLab اکتفا نشد. وضعیت نهایی با API خود GitLab و فرمان‌های Kubernetes
 خوانده، از Secretها پاک و در پوشه \codefile{report/evidence} ذخیره شد. تمام
-فایل‌ها متنی هستند تا در GitHub مستقیماً دیده و مقایسه شوند.
+خروجی‌های اصلی متنی هستند تا در GitHub مستقیماً دیده و مقایسه شوند. برای
+خواندن سریع‌تر گزارش، از همان متن‌ها نسخه تصویری با پس‌زمینه تیره، فونت
+monospace و حاشیه ساده ساخته شد؛ ظاهر آن‌ها دقیقاً از قالب شواهد گزارش فاز اول
+پیروی می‌کند و هر تصویر کنار بخش مرتبط خود قرار گرفته است.
 
 \begin{table}[H]
 \centering
@@ -976,7 +1021,7 @@ report/
   report.tex
   report.pdf
   architecture.png
-  evidence/       # sanitized Kubernetes, GitLab CI, Hadoop and Spark proof
+  evidence/       # text and image proof for Kubernetes, GitLab CI and Spark
 \end{lstlisting}
 \end{latin}
 
